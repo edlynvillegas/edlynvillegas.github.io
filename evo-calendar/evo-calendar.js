@@ -22,9 +22,7 @@
 
         var instanceUid = 0;
 
-        function isValidDate(d) {
-            return d && !isNaN(d.getTime());
-        }
+        
         function UTCDate(){
             return new Date(Date.UTC.apply(Date, arguments));
         }
@@ -35,7 +33,8 @@
             var _ = this, dataSettings;
             _.defaults = {
                 format: 'mm/dd/yyyy',
-                titleFormat: 'MM',
+                titleFormat: 'MM yyyy',
+                eventHeaderFormat: 'MM d, yyyy',
                 language: 'en',
                 todayHighlight: false,
                 sidebarToggler: true,
@@ -57,13 +56,16 @@
                     }
                 }
             }
-            // console.log(_.dates[_.language].)
-
-            $.extend(_, _.initials);
 
             _.options = $.extend({}, _.defaults, settings);
 
-            // console.log(_.initials.dates[_.options.language].daysShort);
+            if(_.options.calendarEvents != null) {
+                for(var i=0; i < _.options.calendarEvents.length; i++) {
+                    if(_.isValidDate(_.options.calendarEvents[i].date)) {
+                        _.options.calendarEvents[i].date = _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format, 'en')
+                    }
+                }
+            }
 
             _.$cal_days_labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -76,7 +78,7 @@
             _.$cal_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
             // this is the current date
-            _.$cal_current_date = getDateToday();
+            _.$cal_current_date = new Date();
 
             _.$month = (isNaN(_.$month) || _.$month == null) ? _.$cal_current_date.getMonth() : _.$month; // 0
             _.$year  = (isNaN(_.$year) || _.$year == null) ? _.$cal_current_date.getFullYear() : _.$year; // 2020
@@ -86,7 +88,7 @@
             _.$eventHTML = '';
 
             _.$active_day_el = null;
-            _.$active_date = null;
+            _.$active_date = _.formatDate(new Date(), _.options.format, 'en');
             _.$active_month_el = null;
             _.$active_month = _.$month;
             _.$active_year_el = null;
@@ -103,6 +105,12 @@
             _.selectYear = $.proxy(_.selectYear, _);
             _.toggleSidebar = $.proxy(_.toggleSidebar, _);
             _.toggleEventList = $.proxy(_.toggleEventList, _);
+
+            _.parseFormat = $.proxy(_.parseFormat, _);
+            _.formatDate = $.proxy(_.formatDate, _);
+
+
+
 
             _.init(true);
         }
@@ -149,7 +157,7 @@
 
         var mainHTML = '<div class="calendar-sidebar"></div><div class="calendar-inner"></div><div class="calendar-events"></div>';
 
-        var sidebarHTML = '<div class="calendar-year"><img year-val="prev" title="Previous year" src="chevron-left.png"/>&nbsp;<p>'+new_year+'&nbsp;</p><img year-val="next" title="Next year" src="chevron-right.png"/></div>';
+        var sidebarHTML = '<div class="calendar-year"><img year-val="prev" title="Previous year" src="assets/img/icons/chevron-left.png"/>&nbsp;<p>'+new_year+'&nbsp;</p><img year-val="next" title="Next year" src="assets/img/icons/chevron-right.png"/></div>';
             sidebarHTML += '<ul class="calendar-months">';
             for(var i = 0; i < _.$cal_months_labels.length; i++) {
                 sidebarHTML += '<li class="month';
@@ -158,12 +166,12 @@
             }
             sidebarHTML += '</ul>';
             if(_.options.sidebarToggler) {
-                sidebarHTML += '<span id="sidebarToggler" title="Close sidebar"><img src="evo-calendar/bars.png"/></span>';
+                sidebarHTML += '<span id="sidebarToggler" title="Close sidebar"><img src="assets/img/icons/bars.png"/></span>';
             }
 
         var calendarHTML = '<table class="calendar-table">';
             calendarHTML += '<tr><th colspan="7">';
-            calendarHTML +=  monthName + "&nbsp;" + new_year;
+            calendarHTML +=  _.formatDate(new Date(monthName +' '+ new_year), _.options.titleFormat, 'en');
             calendarHTML += '</th></tr>';
             calendarHTML += '<tr class="calendar-header">';
             for(var i = 0; i <= 6; i++ ){
@@ -183,12 +191,9 @@
             for (var j = 0; j <= 6; j++) { 
                 calendarHTML += '<td class="calendar-day">';
                 if (day <= monthLength && (i > 0 || j >= startingDay)) {
+                    var thisDay = _.formatDate(new Date(monthName +'/'+ day +'/'+ new_year), _.options.format, 'en');
                     calendarHTML += '<div class="day'
-                    calendarHTML += ((_.$active_date === (monthName +'/'+ day +'/'+ new_year)) ? ' calendar-active' : '') + '" date-val="'
-                    calendarHTML += monthName +'/'+ day +'/'+ new_year;
-                    calendarHTML += '">';
-                    calendarHTML += day;
-                    calendarHTML += '</div>';
+                    calendarHTML += ((_.$active_date === thisDay) ? ' calendar-active' : '') + '" date-val="'+thisDay+'">'+day+'</div>';
                     day++;
                 }
                 calendarHTML += '</td>';
@@ -202,26 +207,30 @@
         }
         calendarHTML += '</tr></table>';
 
+        // var eventHTML = '<div class="calendar-events-header"><p>'+_.$active_month+' '+_.$active_date+', '+_.$active_year+'</p></div>';
         if(_.options.calendarEvents != null) {
-            var eventHTML = '';
+            var eventHTML = '<div class="event-header"><p>'+_.formatDate(new Date(_.$active_date), _.options.eventHeaderFormat, 'en')+'</p></div>';
             var hasEventToday = false;
+            console.log(_.$active_date)
+            eventHTML += '<div>';
             for (var i = 0; i < _.options.calendarEvents.length; i++) {
                 if(_.$active_date === _.options.calendarEvents[i].date) {
                     hasEventToday = true;
                     eventHTML += '<div class="event-container">';
                         eventHTML += '<div class="event-icon"><div class="event-bullet-'+_.options.calendarEvents[i].type+'"></div></div>';
+                        // eventHTML += '<div class="event-icon"><img src="assets/img/icons/'+_.options.calendarEvents[i].type+'.png"/></div>';
                         eventHTML += '<div class="event-info"><p>'+_.options.calendarEvents[i].name+'</p></div>';
                     eventHTML += '</div>';
                 }
             };
             if(!hasEventToday) {
-                eventHTML += '<p>No event for today.. so take a rest! :)</p>';
+                eventHTML += '<p>No event for this day.. so take a rest! :)</p>';
             }
+            eventHTML += '</div>';
             _.$eventHTML = eventHTML;
         }
         if(_.options.eventListToggler) {
-            console.log('eventListToggler')
-            mainHTML += '<span id="eventListToggler" title="Close event list"><img src="evo-calendar/chevron-right.png"/></span>';
+            mainHTML += '<span id="eventListToggler" title="Close event list"><img src="assets/img/icons/chevron-right.png"/></span>';
         }
 
         _.$mainHTML = mainHTML;
@@ -230,36 +239,6 @@
 
         _.setHTML(val);
     };
-
-    // // Date formatter
-    // EvoCalendar.prototype.formatDate = function(date, format, language) {
-    //         if (!date)
-    //             return '';
-    //         if (typeof format === 'string')
-    //             format = DPGlobal.parseFormat(format);
-    //         if (format.toDisplay)
-    //             return format.toDisplay(date, format, language);
-    //         var val = {
-    //             d: date.getUTCDate(),
-    //             D: dates[language].daysShort[date.getUTCDay()],
-    //             DD: dates[language].days[date.getUTCDay()],
-    //             m: date.getUTCMonth() + 1,
-    //             M: dates[language].monthsShort[date.getUTCMonth()],
-    //             MM: dates[language].months[date.getUTCMonth()],
-    //             yy: date.getUTCFullYear().toString().substring(2),
-    //             yyyy: date.getUTCFullYear()
-    //         };
-    //         val.dd = (val.d < 10 ? '0' : '') + val.d;
-    //         val.mm = (val.m < 10 ? '0' : '') + val.m;
-    //         date = [];
-    //         var seps = $.extend([], format.separators);
-    //         for (var i=0, cnt = format.parts.length; i <= cnt; i++){
-    //             if (seps.length)
-    //                 date.push(seps.shift());
-    //             date.push(val[format.parts[i]]);
-    //         }
-    //         return date.join('');
-    // }
 
     // Set the HTML to element
     EvoCalendar.prototype.setHTML = function(val) {
@@ -290,7 +269,7 @@
         }
 
         if(_.options.todayHighlight) {
-            $('.day[date-val="'+ _.$cal_months_labels[_.$month] +'/'+ _.$cal_current_date.getDate() +'/'+ _.$year +'"]').addClass('calendar-today');
+            $('.day[date-val="'+_.formatDate(_.$cal_months_labels[_.$month] +'/'+ _.$cal_current_date.getDate() +'/'+ _.$year, _.options.format, 'en')+'"]').addClass('calendar-today');
         }
 
         _.initEventListener();
@@ -303,7 +282,8 @@
         $('.event-indicator').empty();
         for (var i = 0; i < _.options.calendarEvents.length; i++) {
             for (var x = 0; x < _.$cal_days_in_month[_.$active_month]; x++) {
-                var active_date = _.$cal_months_labels[_.$active_month] +'/'+ (x + 1) +'/'+ _.$active_year;
+                var active_date = _.formatDate(new Date(_.$cal_months_labels[_.$active_month] +'/'+ (x + 1) +'/'+ _.$active_year), _.options.format, 'en');
+                // console.log(active_date, _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format, 'en'))
                 if(active_date==_.options.calendarEvents[i].date) {
                     var thisDate = $('[date-val="'+active_date+'"]');
                     $('[date-val="'+active_date+'"]').addClass('calendar-'+ _.options.calendarEvents[i].type);
@@ -429,17 +409,19 @@
             return format;
         // IE treats \0 as a string end in inputs (truncating the value),
         // so it's a bad format delimiter, anyway
-        var separators = format.replace(_.validParts, '\0').split('\0'),
-            parts = format.match(_.validParts);
+        var separators = format.replace(_.initials.validParts, '\0').split('\0'),
+            parts = format.match(_.initials.validParts);
         if (!separators || !separators.length || !parts || parts.length === 0){
             throw new Error("Invalid date format.");
         }
         return {separators: separators, parts: parts};
     };
 
+    EvoCalendar.prototype.isValidDate = function(d){
+        return new Date(d) && !isNaN(new Date(d).getTime());
+    }
     EvoCalendar.prototype.formatDate = function(date, format, language){
         var _ = this;
-
         if (!date)
             return '';
         if (typeof format === 'string')
@@ -447,14 +429,14 @@
         if (format.toDisplay)
             return format.toDisplay(date, format, language);
         var val = {
-            d: date.getUTCDate(),
-            D: dates[language].daysShort[date.getUTCDay()],
-            DD: dates[language].days[date.getUTCDay()],
-            m: date.getUTCMonth() + 1,
-            M: dates[language].monthsShort[date.getUTCMonth()],
-            MM: dates[language].months[date.getUTCMonth()],
-            yy: date.getUTCFullYear().toString().substring(2),
-            yyyy: date.getUTCFullYear()
+            d: new Date(date).getDate(),
+            D: _.initials.dates[language].daysShort[new Date(date).getDay()],
+            DD: _.initials.dates[language].days[new Date(date).getDay()],
+            m: new Date(date).getMonth() + 1,
+            M: _.initials.dates[language].monthsShort[new Date(date).getMonth()],
+            MM: _.initials.dates[language].months[new Date(date).getMonth()],
+            yy: new Date(date).getFullYear().toString().substring(2),
+            yyyy: new Date(date).getFullYear()
         };
         val.dd = (val.d < 10 ? '0' : '') + val.d;
         val.mm = (val.m < 10 ? '0' : '') + val.m;
