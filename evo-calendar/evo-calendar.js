@@ -158,7 +158,7 @@
             }
             sidebarHTML += '</ul>';
             if(_.options.sidebarToggler) {
-                sidebarHTML += '<span id="sidebarToggler" title="Close sidebar"><img src="bars.png"/></span>';
+                sidebarHTML += '<span id="sidebarToggler" title="Close sidebar"><img src="evo-calendar/bars.png"/></span>';
             }
 
         var calendarHTML = '<table class="calendar-table">';
@@ -221,7 +221,7 @@
         }
         if(_.options.eventListToggler) {
             console.log('eventListToggler')
-            mainHTML += '<span id="eventListToggler" title="Close event list"><img src="chevron-right.png"/></span>';
+            mainHTML += '<span id="eventListToggler" title="Close event list"><img src="evo-calendar/chevron-right.png"/></span>';
         }
 
         _.$mainHTML = mainHTML;
