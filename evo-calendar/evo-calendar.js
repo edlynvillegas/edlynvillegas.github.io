@@ -157,7 +157,7 @@
 
         var mainHTML = '<div class="calendar-sidebar"></div><div class="calendar-inner"></div><div class="calendar-events"></div>';
 
-        var sidebarHTML = '<div class="calendar-year"><img year-val="prev" title="Previous year" src="assets/img/icons/chevron-left.png"/>&nbsp;<p>'+new_year+'&nbsp;</p><img year-val="next" title="Next year" src="assets/img/icons/chevron-right.png"/></div>';
+        var sidebarHTML = '<div class="calendar-year"><img year-val="prev" title="Previous year" src="evo-calendar/chevron-left.png"/>&nbsp;<p>'+new_year+'&nbsp;</p><img year-val="next" title="Next year" src="evo-calendar/chevron-right.png"/></div>';
             sidebarHTML += '<ul class="calendar-months">';
             for(var i = 0; i < _.$cal_months_labels.length; i++) {
                 sidebarHTML += '<li class="month';
@@ -166,7 +166,7 @@
             }
             sidebarHTML += '</ul>';
             if(_.options.sidebarToggler) {
-                sidebarHTML += '<span id="sidebarToggler" title="Close sidebar"><img src="assets/img/icons/bars.png"/></span>';
+                sidebarHTML += '<span id="sidebarToggler" title="Close sidebar"><img src="evo-calendar/bars.png"/></span>';
             }
 
         var calendarHTML = '<table class="calendar-table">';
@@ -218,7 +218,7 @@
                     hasEventToday = true;
                     eventHTML += '<div class="event-container">';
                         eventHTML += '<div class="event-icon"><div class="event-bullet-'+_.options.calendarEvents[i].type+'"></div></div>';
-                        // eventHTML += '<div class="event-icon"><img src="assets/img/icons/'+_.options.calendarEvents[i].type+'.png"/></div>';
+                        // eventHTML += '<div class="event-icon"><img src="evo-calendar/'+_.options.calendarEvents[i].type+'.png"/></div>';
                         eventHTML += '<div class="event-info"><p>'+_.options.calendarEvents[i].name+'</p></div>';
                     eventHTML += '</div>';
                 }
@@ -230,7 +230,7 @@
             _.$eventHTML = eventHTML;
         }
         if(_.options.eventListToggler) {
-            mainHTML += '<span id="eventListToggler" title="Close event list"><img src="assets/img/icons/chevron-right.png"/></span>';
+            mainHTML += '<span id="eventListToggler" title="Close event list"><img src="evo-calendar/chevron-right.png"/></span>';
         }
 
         _.$mainHTML = mainHTML;
