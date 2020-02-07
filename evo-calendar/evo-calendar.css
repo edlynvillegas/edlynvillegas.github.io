@@ -266,11 +266,11 @@ tr.calendar-body .calendar-day .day[disabled] {
     z-index: -1;
 }
 .event-container:last-child > .event-icon::before {
-    height: calc(50% + 10px);
+    height: calc(50% + 20px);
 }
 .event-container:first-child > .event-icon::before {
     top: 50%;
-    height: calc(50% + 10px);
+    height: calc(50% + 20px);
 }
 .event-container:only-child > .event-icon::before {
     opacity: 0;
