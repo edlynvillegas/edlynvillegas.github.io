@@ -202,11 +202,6 @@
         }
         calendarHTML += '</tr></table>';
 
-        _.$mainHTML = mainHTML;
-        _.$sidebarHTML = sidebarHTML;
-        _.$calendarHTML = calendarHTML;
-
-        // var eventHTML = '<div class="calendar-events-header"><p>'+_.$active_month+' '+_.$active_date+', '+_.$active_year+'</p></div>';
         if(_.options.calendarEvents != null) {
             var eventHTML = '';
             var hasEventToday = false;
@@ -223,11 +218,16 @@
             if(!hasEventToday) {
                 eventHTML += '<p>No event for today.. so take a rest! :)</p>';
             }
-            if(_.options.eventListToggler) {
-                mainHTML += '<span id="eventListToggler" title="Close event list"><img src="assets/img/icons/chevron-right.png"/></span>';
-            }
             _.$eventHTML = eventHTML;
         }
+        if(_.options.eventListToggler) {
+            console.log('eventListToggler')
+            mainHTML += '<span id="eventListToggler" title="Close event list"><img src="assets/img/icons/chevron-right.png"/></span>';
+        }
+
+        _.$mainHTML = mainHTML;
+        _.$sidebarHTML = sidebarHTML;
+        _.$calendarHTML = calendarHTML;
 
         _.setHTML(val);
     };
