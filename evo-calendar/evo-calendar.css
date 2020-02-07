@@ -3,8 +3,10 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-.evo-calendar {
+body {
     font-family: 'Source Sans Pro';
+}
+.evo-calendar {
     position: relative;
     background-color: #fbfbfb;
     color: #5a5a5a;
