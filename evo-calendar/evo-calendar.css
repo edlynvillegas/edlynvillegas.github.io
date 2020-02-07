@@ -77,16 +77,23 @@
 	background-color: #755eb5;
 }
 .calendar-inner {
-	padding: 50px 30px 60px 30px;
+	padding: 50px 30px 70px 30px;
     float: left;
     width: calc(100% - 600px);
     margin-left: 200px;
+    background-color: #fff;
     box-shadow: 5px 0 18px -3px rgba(0, 0, 0, 0.15);
     transition: all .3s ease;
 }
 .sidebar-hide .calendar-inner {
     width: calc(100% - 400px);
     margin-left: 0;
+}
+.event-hide .calendar-inner {
+	width: calc(100% - 200px);
+}
+.event-hide.sidebar-hide .calendar-inner {
+	width: 100%;
 }
 .calendar-inner .calendar-table {
 	font-size: 20px;
@@ -114,6 +121,7 @@ tr.calendar-body .calendar-day {
 	padding: 10px;
 }
 tr.calendar-body .calendar-day .day {
+	position: relative;
 	padding: 15px;
 	height: 60px;
     width: 60px;
@@ -130,13 +138,20 @@ tr.calendar-body .calendar-day .day:hover {
 tr.calendar-body .calendar-day .day:active {
 	transform: scale(0.9);
 }
+
+tr.calendar-body .calendar-day .day.calendar-active,
+tr.calendar-body .calendar-day .day.calendar-active:hover {
+	color: #5a5a5a;
+	border-color: rgba(0, 0, 0, 0.5);
+}
+
 tr.calendar-body .calendar-day .day.calendar-today {
-	color: #8773c1;
-    background-color: #d5b2f6;
+	color: #fff;
+    background-color: #8773c1;
 }
 tr.calendar-body .calendar-day .day.calendar-today:hover {
 	color: #fff;
-	background-color: #8773c1;
+	background-color: #755eb5;
 }
 /* yellow
 tr.calendar-body .calendar-day .day.calendar-today {
@@ -147,27 +162,22 @@ tr.calendar-body .calendar-day .day.calendar-today:hover {
 	color: #fff;
 	background-color: #60afa1;
 }*/
-tr.calendar-body .calendar-day .day.calendar-event {
+/*tr.calendar-body .calendar-day .day.calendar-event {
 	color: #e09d9d;
 	background-color: #ffc1c1;
 }
 tr.calendar-body .calendar-day .day.calendar-event:hover{
 	color: #fff;
 	background-color: #e09d9d;
-}
-tr.calendar-body .calendar-day .day.calendar-holiday {
+}*/
+/*tr.calendar-body .calendar-day .day.calendar-holiday {
 	color: #e8af00;
 	background-color: #ffe6a4;
 }
 tr.calendar-body .calendar-day .day.calendar-holiday:hover{
 	color: #fff;
 	background-color: #e8af00;
-}
-tr.calendar-body .calendar-day .day.calendar-active,
-tr.calendar-body .calendar-day .day.calendar-active:hover {
-	color: #5a5a5a;
-	border-color: rgba(0, 0, 0, 0.5);
-}
+}*/
 tr.calendar-body .calendar-day .day[disabled] {
 	pointer-events: none;
     cursor: not-allowed;
@@ -182,20 +192,64 @@ tr.calendar-body .calendar-day .day[disabled] {
     right: 0;
     width: 400px;
     height: 100%;
-    padding: 50px 30px 60px 30px;
+    padding: 70px 30px 60px 30px;
     background-color: #fbfbfb;
     z-index: -1;
+}
+.event-hide .calendar-events {
+	
+}
+#eventListToggler {
+	position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #8773c1;
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 5px 0 18px -3px #8773c1;
+}
+#eventListToggler > img {
+	width: 40px;
 }
 
 .event-container {
 	display: block;
-	margin
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: all .3s ease;
+    cursor: pointer;
+}
+.event-container:hover {
+    background-color: #fff;
+    box-shadow: 0 3px 12px -4px rgba(0, 0, 0, 0.65);
 }
 .event-container > .event-icon {
+	position: relative;
 	display: inline-block;
-    padding: 10px;
-    width: 50px;
-    height: 50px;
+    padding: 20px;
+    width: 60px;
+    height: 60px;
+	float: left;
+}
+.event-container > .event-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 29px;
+    width: 2px;
+    height: calc(100% + 10px);
+    background-color: #eaeaea;
+    z-index: -1;
+}
+.event-container:first-child > .event-icon::before {
+    top: 50%;
+    height: calc(50% + 10px);
+}
+.event-container:last-child > .event-icon::before {
+    height: calc(50% + 10px);
+}
+.event-container:only-child > .event-icon::before {
+    opacity: 0;
 }
 .event-container > .event-icon > img {
 	width: 30px;
@@ -203,6 +257,46 @@ tr.calendar-body .calendar-day .day[disabled] {
 .event-container > .event-info {
 	display: inline-block;
 	padding: 10px;
+}
+
+
+.event-indicator {
+	position: absolute;
+	width: fit-content;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, calc(-100% + -5px));
+}
+.event-indicator > .type-bullet {
+	display: inline-block;
+	float: left;
+	padding: 2px;
+}
+.event-indicator > .type-bullet > div.type-event,
+.event-indicator > .type-bullet > div.type-holiday,
+.event-indicator > .type-bullet > div.type-birthday {
+	width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.event-container > .event-icon > div.event-bullet-event,
+.event-container > .event-icon > div.event-bullet-holiday,
+.event-container > .event-icon > div.event-bullet-birthday {
+	width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.event-container > .event-icon > div.event-bullet-event,
+.event-indicator > .type-bullet > div.type-event {
+    background-color: #ff7575;
+}
+.event-container > .event-icon > div.event-bullet-holiday,
+.event-indicator > .type-bullet > div.type-holiday {
+    background-color: #ffc107;
+}
+.event-container > .event-icon > div.event-bullet-birthday,
+.event-indicator > .type-bullet > div.type-birthday {
+    background-color: #3ca8ff;
 }
 
 
