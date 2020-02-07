@@ -220,9 +220,8 @@
                 if(_.$active_date === _.options.calendarEvents[i].date) {
                     hasEventToday = true;
                     eventHTML += '<div class="event-container">';
-                        eventHTML += '<div class="event-icon"><div class="event-bullet-'+_.options.calendarEvents[i].type+'"></div></div>';
-                        // eventHTML += '<div class="event-icon"><img src="evo-calendar/'+_.options.calendarEvents[i].type+'.png"/></div>';
-                        eventHTML += '<div class="event-info"><p>'+_.options.calendarEvents[i].name+'</p></div>';
+                    eventHTML += '<div class="event-icon"><div class="event-bullet-'+_.options.calendarEvents[i].type+'"></div></div>';
+                    eventHTML += '<div class="event-info"><p>'+_.options.calendarEvents[i].name+'</p></div>';
                     eventHTML += '</div>';
                 }
             };
