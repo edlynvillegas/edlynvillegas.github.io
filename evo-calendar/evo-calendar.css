@@ -1,3 +1,6 @@
+* {
+    box-sizing: border-box;
+}
 .evo-calendar {
     font-family: 'Source Sans Pro';
     position: relative;
