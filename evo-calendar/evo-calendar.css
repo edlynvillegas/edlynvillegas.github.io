@@ -1,4 +1,6 @@
-* {
+*, ::after, ::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 .evo-calendar {
@@ -100,6 +102,7 @@
     width: 100%;
 }
 .calendar-inner .calendar-table {
+    border-collapse: collapse;
     font-size: 20px;
     width: 100%;
     user-select: none;
