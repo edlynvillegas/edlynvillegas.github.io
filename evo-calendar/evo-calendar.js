@@ -416,23 +416,30 @@
     };
 
     // toggle event list
-    EvoCalendar.prototype.addCalendarEvent = function() {
+    EvoCalendar.prototype.addCalendarEvent = function(new_data) {
         var _ = this;
-
-        // if($(_.$calendar).hasClass('event-hide')) {
-        //     $(_.$calendar).removeClass('event-hide');
-        // } else {
-        //     $(_.$calendar).addClass('event-hide');
-        // }
+        var data = new_data;
+        for(var i=0; i < data.length; i++) {
+            if(_.isValidDate(data[i].date)) {
+                data[i].date = _.formatDate(new Date(data[i].date), _.options.format, 'en');
+                _.options.calendarEvents.push(data[i]);
+            }
+        }
+         _.buildCalendar('inner');
+         _.buildCalendar('events');
     };
-
     // toggle event list
-    EvoCalendar.prototype.removeCalendarEvent = function(index) {
+    EvoCalendar.prototype.addCalendarEvent = function(new_data) {
         var _ = this;
-
-        _.options.calendarEvents.splice(index, 1);
-        console.log('removeEvent', _.options.calendarEvents);
-        _.buildCalendar('events');
+        var data = new_data;
+        for(var i=0; i < data.length; i++) {
+            if(_.isValidDate(data[i].date)) {
+                data[i].date = _.formatDate(new Date(data[i].date), _.options.format, 'en');
+                _.options.calendarEvents.push(data[i]);
+            }
+        }
+         _.buildCalendar('inner');
+         _.buildCalendar('events');
     };
 
     EvoCalendar.prototype.parseFormat = function(format) {
