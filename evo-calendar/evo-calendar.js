@@ -40,6 +40,8 @@
                 sidebarToggler: true,
                 eventListToggler: true,
                 calendarEvents: null,
+                canAddEvent: true,
+
                 onSelectDate: null,
                 onAddEvent: null
             };
@@ -66,6 +68,7 @@
                     }
                 }
             }
+            console.log(_.options)
 
             _.$cal_days_labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -220,6 +223,7 @@
                         eventHTML += '<div class="event-icon"><div class="event-bullet-'+_.options.calendarEvents[i].type+'"></div></div>';
                         // eventHTML += '<div class="event-icon"><img src="evo-calendar/'+_.options.calendarEvents[i].type+'.png"/></div>';
                         eventHTML += '<div class="event-info"><p>'+_.options.calendarEvents[i].name+'</p></div>';
+                        eventHTML += '<p class="delete-button">Delete</p>';
                     eventHTML += '</div>';
                 }
             };
@@ -228,6 +232,10 @@
             }
             eventHTML += '</div>';
             _.$eventHTML = eventHTML;
+        }
+
+        if(_.options.canAddEvent) {
+            mainHTML += '<span id="eventAddButton" title="Add event">ADD EVENT</span>';
         }
         if(_.options.eventListToggler) {
             mainHTML += '<span id="eventListToggler" title="Close event list"><img src="evo-calendar/chevron-right.png"/></span>';
@@ -317,6 +325,13 @@
                .off('click.evocalendar')
                .on('click.evocalendar', _.toggleEventList);
         }
+        if(_.options.canAddEvent) {
+            $('#eventAddButton')
+               .off('click.evocalendar')
+               .on('click.evocalendar', _.addCalendarEvent);
+        }
+
+
 
         $('[date-val]')
            .off('click.evocalendar')
@@ -400,6 +415,26 @@
         } else {
             $(_.$calendar).addClass('event-hide');
         }
+    };
+
+    // toggle event list
+    EvoCalendar.prototype.addCalendarEvent = function() {
+        var _ = this;
+
+        // if($(_.$calendar).hasClass('event-hide')) {
+        //     $(_.$calendar).removeClass('event-hide');
+        // } else {
+        //     $(_.$calendar).addClass('event-hide');
+        // }
+    };
+
+    // toggle event list
+    EvoCalendar.prototype.removeCalendarEvent = function(index) {
+        var _ = this;
+
+        _.options.calendarEvents.splice(index, 1);
+        console.log('removeEvent', _.options.calendarEvents);
+        _.buildCalendar('events');
     };
 
     EvoCalendar.prototype.parseFormat = function(format) {

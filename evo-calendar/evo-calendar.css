@@ -1,4 +1,5 @@
 .evo-calendar {
+    font-family: 'Source Sans Pro';
     position: relative;
     background-color: #fbfbfb;
     color: #5a5a5a;
@@ -215,6 +216,19 @@ tr.calendar-body .calendar-day .day[disabled] {
 #eventListToggler > img {
     width: 40px;
 }
+#eventAddButton {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #8773c1;
+    padding: 10px;
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 5px 0 18px -3px #8773c1;
+}
+#eventAddButton > img {
+    width: 40px;
+}
 
 .event-container {
     display: block;
@@ -318,9 +332,43 @@ tr.calendar-body .calendar-day .day.calendar-active {
 }*/
 
 
-
-
 /* sm */
+@media only screen and (max-width: 1024px) {
+    .calendar-sidebar {
+        width: 175px;
+    }
+    .calendar-inner {
+        padding: 50px 10px 70px 10px;
+        width: calc(100% - 475px);
+        margin-left: 175px;
+    }
+    .sidebar-hide .calendar-inner {
+        width: calc(100% - 300px);
+    }
+    .event-hide .calendar-inner {
+        width: calc(100% - 175px);
+    }
+    .calendar-events {
+        width: 300px;
+        padding: 70px 10px 60px 10px;
+    }
+    tr.calendar-body .calendar-day .day {
+        padding: 8px;
+        height: 45px;
+        width: 45px;
+        font-size: 16px;
+    }
+    .event-indicator > .type-bullet > div.type-event,
+    .event-indicator > .type-bullet > div.type-holiday,
+    .event-indicator > .type-bullet > div.type-birthday {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+    }
+}
+
+
+/* sm 
 /*@media only screen and (max-width: 767px) {
     .evo-calendar {
         grid-template-columns: 1fr;
