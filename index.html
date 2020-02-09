@@ -10,15 +10,119 @@
     <link rel="stylesheet" type="text/css" href="assets/css/evo-calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
 </head>
 <body>
     <main>
-        <h1>EDLYN! :)</h1>
+        <header>
+            <nav class="nav-container">
+                gooo
+            </nav>
+        </header>
+        <section class="section-container" id="home">
+            <div class="section-content">
+                <div class="console-container">
+                    <div class="console-content animated swing">
+                        <div class="console-header">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <div class="console-body">
+                                <p>Hi, my name is</p>
+                                <h1 title="yep, that's my name" class="name"></h1>
+                                <div class="line"></div>
+                                <p>Welcome to my portfolio!</p>
+                                <p>I'm a fresh graduate of Bachelor of Science in Information Technology in a not-so-prestigious school. I find my passion in coding, and dreaming to be a extraordinary professional web developer.</p>
+                                <p class="info"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-container" id="projects">
+            <div class="section-content">
+                <p class="section-title">Projects</p>
+                <div class="project-container">
+                    <div class="project-content">
+                        <div class="project-inner-content">
+                            <div class="project-image-container">
+                                <img src="assets/img/project-1.jpg" alt="Project No. 1">
+                            </div>
+                            <div class="project-description-container">
+                                <p class="project-title">Evo Calendar</p>
+                                <p class="project-desc">Responsive calendar with modern design</p>
+                                <ul class="project-feature-list">
+                                    <li class="project-feature">Add/View event</li>
+                                    <li class="project-feature">Add/View event</li>
+                                    <li class="project-feature">Add/View event</li>
+                                </ul>
+                            </div>
+                            <div class="project-icons">
+                                <img src="assets/img/icons/html5-icon.svg" alt="HTML5">
+                                <img src="assets/img/icons/css3-icon.svg" alt="CSS3">
+                                <img src="assets/img/icons/javascript-icon.svg" alt="Javascript">
+                                <img src="assets/img/icons/jquery-icon.svg" alt="JQuery">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-inner-content">
+                            <div class="project-image-container">
+                                <img src="assets/img/project-1.jpg" alt="Project No. 1">
+                            </div>
+                            <div class="project-description-container">
+                                <p class="project-title">Evo Calendar</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-inner-content">
+                            <div class="project-image-container">
+                                <img src="assets/img/project-1.jpg" alt="Project No. 1">
+                            </div>
+                            <div class="project-description-container">
+                                <p class="project-title">Evo Calendar</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-inner-content">
+                            <div class="project-image-container">
+                                <img src="assets/img/project-1.jpg" alt="Project No. 1">
+                            </div>
+                            <div class="project-description-container">
+                                <p class="project-title">Evo Calendar</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <a href="assets/views/evo-calendar.html">Evo Calendar</a>
     </main>
     
     <!-- jQuery library -->
     <script src="assets/js/core/jquery.min.js"></script>
+    <script src="assets/js/plugins/typed.min.js"></script>
+    <script>
+        //----------//
+        // typed.js //
+        //----------//
+        var typed = new Typed('.name', {
+            strings: ["EDLYN<span>VILLEGAS</span>"],
+            typeSpeed: 30,
+            startDelay: 200
+        });
+        var typed = new Typed('.info', {
+        strings: ["<b>Front-End Web Developer ^200 . ^200 . ^200 .</b>",
+                    "<b>Back-End Web Developer ^200 . ^200 . ^200 .</b>",
+                    "<b>Full-Stack Web Developer in the making.  ^500 :)</b>"],
+        typeSpeed: 30,
+        backSpeed: 20,
+        startDelay: 1000,
+        showCursor: false
+        });
+    </script>
 </body>
 </html>
