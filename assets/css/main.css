@@ -236,3 +236,27 @@ button.navigator-container > span::after {
         padding: 10px;
     }
 }
+/* sm */
+@media only screen and (max-width: 768px) {
+    .project-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 15px;
+    }
+}
+/* xs */
+@media only screen and (max-width: 576px) {
+    .project-container {
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 10px;
+    }
+    button.navigator-container {
+        width: 65px;
+        height: 65px;
+        padding: 12px;
+    }
+    button.navigator-container > span,
+    button.navigator-container > span::before,
+    button.navigator-container > span::after {
+        height: 6px;
+    }
+}
