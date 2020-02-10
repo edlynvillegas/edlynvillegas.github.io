@@ -8,7 +8,6 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto Slab', serif;
-    color: #191919;
 }
 main {
     width: 100%;
@@ -207,6 +206,7 @@ button.navigator-container > span::after {
     margin: 0;
     font-size: 32px;
     font-weight: 700;
+    color: #fff;
 }
 .project-container > .project-content .project-description-container > .project-desc {
     margin: 5px 0;
