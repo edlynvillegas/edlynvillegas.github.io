@@ -231,10 +231,16 @@ button.navigator-container > span::after {
         max-width: 1250px;
     }
     .project-container > .project-content .project-image-container {
-        height: 180px;
+        height: 230px;
     }
     .project-container > .project-content > .console-container {
         padding: 10px;
+    }
+}
+/* sm */
+@media only screen and (max-width: 991px) {
+    .project-container > .project-content .project-image-container {
+        height: 180px;
     }
 }
 /* sm */

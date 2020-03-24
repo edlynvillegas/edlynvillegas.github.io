@@ -19,16 +19,6 @@
     var EvoCalendar = window.EvoCalendar || {};
 
     EvoCalendar = (function() {
-
-        var instanceUid = 0;
-
-        
-        function UTCDate(){
-            return new Date(Date.UTC.apply(Date, arguments));
-        }
-        function getDateToday() {
-            return new Date();
-        }
         function EvoCalendar(element, settings) {
             var _ = this, dataSettings;
             _.defaults = {
@@ -40,6 +30,7 @@
                 sidebarToggler: true,
                 eventListToggler: true,
                 calendarEvents: null,
+                disabledDate: null,
                 canAddEvent: true,
 
                 onSelectDate: null,
@@ -65,6 +56,14 @@
                 for(var i=0; i < _.options.calendarEvents.length; i++) {
                     if(_.isValidDate(_.options.calendarEvents[i].date)) {
                         _.options.calendarEvents[i].date = _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format, 'en')
+                    }
+                }
+            }
+
+            if(_.options.disabledDate != null) {
+                for(var i=0; i < _.options.disabledDate.length; i++) {
+                    if(_.isValidDate(_.options.disabledDate[i])) {
+                        _.options.disabledDate[i] = _.formatDate(new Date(_.options.disabledDate[i]), _.options.format, 'en')
                     }
                 }
             }
@@ -229,7 +228,6 @@
         }
         
         function buildEventListHTML() {
-            console.log('buildEventListHTML()')
             if(_.options.calendarEvents != null) {
                 var eventHTML = '<div class="event-header"><p>'+_.formatDate(new Date(_.$active_date), _.options.eventHeaderFormat, 'en')+'</p></div>';
                 var hasEventToday = false;
@@ -470,7 +468,7 @@
         }
     };
 
-    // toggle event list
+    // add calendar event(s)
     EvoCalendar.prototype.addCalendarEvent = function(new_data) {
         var _ = this;
         var data = new_data;
@@ -482,6 +480,12 @@
         }
          _.buildCalendar('inner');
          _.buildCalendar('events');
+    };
+
+    // remove calendar event
+    EvoCalendar.prototype.removeCalendarEvent = function(new_data) {
+        var _ = this;
+        // code here...
     };
 
     EvoCalendar.prototype.parseFormat = function(format) {
@@ -498,7 +502,6 @@
         }
         return {separators: separators, parts: parts};
     };
-
     EvoCalendar.prototype.isValidDate = function(d){
         return new Date(d) && !isNaN(new Date(d).getTime());
     }
@@ -510,6 +513,12 @@
             format = _.parseFormat(format);
         if (format.toDisplay)
             return format.toDisplay(date, format, language);
+
+        // For Apple devices
+        if (navigator.userAgent.match(/(iPhone|iPod|iPad)/) != null) {
+            var date = _.convertDateForIos(new Date(date).toISOString());
+        }
+
         var val = {
             d: new Date(date).getDate(),
             D: _.initials.dates[language].daysShort[new Date(date).getDay()],
@@ -531,6 +540,11 @@
         }
         return date.join('');
     };
+    EvoCalendar.prototype.convertDateForIos = function(date) {
+        var arr = date.split(/[- :]/);
+        date = new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]);
+        return date;
+    }
 
 
 
