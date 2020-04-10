@@ -227,7 +227,7 @@
         if (format.toDisplay)
             return format.toDisplay(date, format, language);
 
-        date = date.toISOString();
+        // date = date.toISOString();
         
         var val = {
             d: new Date(date).getDate(),
@@ -414,9 +414,10 @@
         }
 
         function buildCalendarHTML() {
+            console.log(monthName +' '+ new_year)
             calendarHTML = '<table class="calendar-table">';
             calendarHTML += '<tr><th colspan="7">';
-            calendarHTML +=  _.formatDate(new Date(monthName +' '+ new_year), _.options.titleFormat, 'en');
+            calendarHTML +=  _.formatDate(new Date(monthName +'/1/'+ new_year), _.options.titleFormat, 'en');
             calendarHTML += '</th></tr>';
             calendarHTML += '<tr class="calendar-header">';
             for(var i = 0; i <= 6; i++ ){
