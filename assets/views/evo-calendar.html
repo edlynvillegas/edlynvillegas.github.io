@@ -6,39 +6,92 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="/assets/css/evo-calendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="evo-calendar.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
+<style>
+    body {
+        background-image: linear-gradient(-45deg, #57abaf, #f1f1f1);
+    }
+    main {
+        padding: 20px;
+        max-width: 1366px;
+        width: 100%;
+        margin: 0 auto;
+        min-height: 100vh;
+    }
+    h1 {
+        font-family: 'Pacifico', cursive;
+        font-size: 50px;
+        line-height: 50px;
+        /* color: #755eb5; */
+        color: #00adb5;
+        /* color: #fc9567; */
+        margin: 0;
+        padding-bottom: 15px;
+        margin-bottom: 25px;
+        border-bottom: 1px solid #222831;
+    }
+    h1 span {
+        color: #616161;
+    }
+    hr {
+        margin-bottom: 20px;
+    }
+    @media only screen and (max-width: 425px) {
+        main {
+            padding: 10px;
+        }
+    }
+</style>
 <body>
-    <h1>Evo Calendar</h1>
-    <hr>
-	<div id="evoCalendar"></div>
+    <main>
+        <h1><span>evo</span>calendar</h1>
+        <div id="evoCalendar"></div>
+    </main>
 
     <!-- jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="/assets/js/plugins/evo-calendar.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="evo-calendar.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#evoCalendar').evoCalendar({
-                todayHighlight: true,
-                sidebarToggler: true,
-                eventListToggler: true,
-                calendarEvents: [
-                    {name: "New Year", date: "January/1/2020", type: "holiday"},
-                    {name: "Holiday #2", date: "February/3/2020", type: "holiday"},
-                    {name: "Patient #1", date: "February/3/2020", type: "event"},
-                    {name: "Patient #3", date: "February/3/2020", type: "event"},
-                    {name: "Patient #4", date: "February/3/2020", type: "event"},
-                    {name: "Birthday #1", date: "February/15/2020", type: "birthday"},
-                    {name: "Patient #2", date: "February/8/2020", type: "event"}
-                ],
-                onSelectDate: function() {
-                    console.log('onSelectDate!')
-                }
-            });
+        $('#evoCalendar').evoCalendar({
+            theme: 'Midnight Blue',
+            todayHighlight: true,
+            sidebarToggler: true,
+            eventListToggler: true,
+            eventDisplayDefault: false,
+            canAddEvent: false,
+            calendarEvents: [
+                { name: "New Year", date: "Wed Jan 01 2020 00:00:00 GMT-0800 (Pacific Standard Time)", type: "holiday", everyYear: true },
+                { name: "Valentine's Day", date: "Fri Feb 14 2020 00:00:00 GMT-0800 (Pacific Standard Time)", type: "holiday", everyYear: true },
+                { name: "Patient #1", date: "February/3/2020", type: "event" },
+                { name: "Patient #3", date: "February/3/2020", type: "event" },
+                { name: "Patient #4", date: "February/3/2020", type: "event" },
+                { name: "Holiday #3", date: "February/3/2020", type: "holiday" },
+                { name: "Birthday #2", date: "February/3/2020", type: "birthday" },
+                { name: "Author's Birthday", date: "February/15/2020", type: "birthday", everyYear: true },
+                { name: "Holiday #4", date: "February/15/2020", type: "event" },
+                { name: "Patient #2", date: "February/8/2020", type: "event" },
+                { name: "Leap day", date: "February/29/2020", type: "holiday", everyYear: true },
+                { name: "Patient #5", date: "April/4/2020", type: "event" },
+                { name: "Holy Thursday po hehe", date: "April/9/2020", type: "holiday" },
+                { name: "Good Friday", date: "April/10/2020", type: "holiday" }
+            ]
         });
+        $("#evoCalendar").on('selectDate', function(event, newDate, oldDate) {
+            
+        });
+        $("#evoCalendar").on('selectEvent', function(event, index, activeEvent) {
+            
+        });
+
+        setTimeout(() => {
+            // $("#evoCalendar").evoCalendar('removeCalendarEvent', [11, 12, 13]);
+            $("#evoCalendar").evoCalendar('addCalendarEvent', [{ name: "Get evocalendar some upgrade today", date: new Date(), type: "event" }]);
+        }, 1000);
     </script>
 </body>
 </html>
