@@ -310,13 +310,13 @@ tr.calendar-body .calendar-day .day[disabled] {
 
 .event-indicator {
     position: absolute;
+    width: -moz-max-content;
     width: fit-content;
     top: 100%;
     left: 50%;
     transform: translate(-50%, calc(-100% + -5px));
 }
 .event-indicator > .type-bullet {
-    display: inline-block;
     float: left;
     padding: 2px;
 }

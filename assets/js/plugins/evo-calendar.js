@@ -8,10 +8,6 @@
 (/) theme 
 - calendarEvents:
     + everyWeek (boolean)
-- eventClass: 
-    + type (string: Event|Holiday|Birthday)
-    + color (string)
-- disabledDate
 
 +--- METHODS ----+
 
@@ -22,9 +18,9 @@
 (/) toggleEventList -> arg: bool (optional) -> Toggle event list display
 (/) getActiveDate -> none -> Get the selected date
 (/) getActiveEvents  -> none -> Get the event(s) of selected date
-( ) navigateToDate -> date -> Select date programmatically
-( ) backToReality -> none -> Go back not to past or future, but to present ;)
-
+(/) selectDate -> date -> Select date programmatically
+(/) selectMonth -> date -> Select month programmatically
+(/) selectYear -> date -> Select year programmatically
 
 +---- EVENTS ----+
 (/) selectDate -> arg: newDate, oldDate -> Fires after selecting date
@@ -98,6 +94,13 @@
                         daysMin: ["Linggo", "Lunes", "Martes", "Miyerkules", "Huwebes", "Biyernes", "Sabado"],
                         months: ["Enero", "Pebrero", "Marso", "Abril", "Mayo", "Hunyo", "Hulyo", "Agosto", "Septyembre", "Oktubre", "Nobyembre", "Disyembre"],
                         monthsShort: ["Enero", "Pebrero", "Marso", "Abril", "Mayo", "Hunyo", "Hulyo", "Agosto", "Septyembre", "Oktubre", "Nobyembre", "Disyembre"]
+                    },
+                    es: {
+                        days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+                        daysShort: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+                        daysMin: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+                        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Oktubre", "Nobyembre", "Disyembre"],
+                        monthsShort: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Oktubre", "Nobyembre", "Disyembre"]
                     }
                 }
             }
@@ -108,7 +111,7 @@
             if(_.options.calendarEvents != null) {
                 for(var i=0; i < _.options.calendarEvents.length; i++) {
                     if(_.isValidDate(_.options.calendarEvents[i].date)) {
-                        _.options.calendarEvents[i].date = _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format, 'en')
+                        _.options.calendarEvents[i].date = _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format)
                     }
                     // If event doesn't have an id, assign its index
                     if(!_.options.calendarEvents[i].id) {
@@ -132,7 +135,7 @@
             _.$current = {
                 month: (isNaN(this.month) || this.month == null) ? new Date().getMonth() : this.month,
                 year: (isNaN(this.year) || this.year == null) ? new Date().getFullYear() : this.year,
-                date: _.formatDate(new Date(), _.options.format, 'en')
+                date: _.formatDate(new Date(), _.options.format)
             }
 
             // ACTIVE
@@ -146,7 +149,7 @@
             // LABELS
             _.$label = {
                 days: [],
-                months: _.initials.dates[_.options.language].months,
+                months: _.initials.dates[_.defaults.language].months,
                 days_in_month: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
             }
 
@@ -222,12 +225,13 @@
         var _ = this;
         if (!date)
             return '';
+        language = language ? language : _.defaults.language
         if (typeof format === 'string')
             format = _.parseFormat(format);
         if (format.toDisplay)
             return format.toDisplay(date, format, language);
-
-        date = date.toISOString();
+            
+        date = new Date(date).toISOString();
         
         var val = {
             d: new Date(date).getDate(),
@@ -369,6 +373,11 @@
         var nameDays = _.initials.dates[_.options.language].daysShort;
         var firstDayOfWeekName = _.initials.dates[_.options.language].daysShort.map(function(obj) {return obj}).indexOf(_.options.firstDayOfWeek);
 
+        if (firstDayOfWeekName < 0) {
+            // If firstDayOfWeek and language aren't the same, find in default language
+            firstDayOfWeekName = _.initials.dates[_.defaults.language].daysShort.map(function(obj) {return obj}).indexOf(_.defaults.firstDayOfWeek)
+        }
+
         while (_.$label.days.length < nameDays.length) {
             if (firstDayOfWeekName == nameDays.length) {
                 firstDayOfWeekName=0;
@@ -404,7 +413,7 @@
             for(var i = 0; i < _.$label.months.length; i++) {
                 sidebarHTML += '<li class="month';
                 sidebarHTML += (parseInt(_.$active.month) === i) ? ' active-month' : ''
-                sidebarHTML += '" data-month-val="'+i+'">'+_.$label.months[i]+'</li>';
+                sidebarHTML += '" data-month-val="'+i+'">'+_.initials.dates[_.options.language].months[i]+'</li>';
             }
             sidebarHTML += '</ul>';
             if(_.options.sidebarToggler) {
@@ -417,7 +426,7 @@
             console.log(monthName +' '+ new_year)
             calendarHTML = '<table class="calendar-table">';
             calendarHTML += '<tr><th colspan="7">';
-            calendarHTML +=  _.formatDate(new Date(monthName +'/1/'+ new_year), _.options.titleFormat, 'en');
+            calendarHTML +=  _.formatDate(new Date(monthName +'/1/'+ new_year), _.options.titleFormat, _.options.language);
             calendarHTML += '</th></tr>';
             calendarHTML += '<tr class="calendar-header">';
             for(var i = 0; i <= 6; i++ ){
@@ -434,7 +443,7 @@
                 for (var j = 0; j <= 6; j++) { 
                     calendarHTML += '<td class="calendar-day">';
                     if (day <= monthLength && (i > 0 || j >= startingDay)) {
-                        var thisDay = _.formatDate(new Date(monthName +'/'+ day +'/'+ new_year), _.options.format, 'en');
+                        var thisDay = _.formatDate(new Date(monthName +'/'+ day +'/'+ new_year), _.options.format);
                         calendarHTML += '<div class="day'
                         calendarHTML += ((_.$active.date === thisDay) ? ' calendar-active' : '') + '" data-date-val="'+thisDay+'">'+day+'</div>';
                         day++;
@@ -453,9 +462,10 @@
         }
         
         function buildEventListHTML() {
+            console.log('build event', _.$active.date)
             if(_.options.calendarEvents != null) {
                 _.$active.events = [];
-                var eventHTML = '<div class="event-header"><p>'+_.formatDate(new Date(_.$active.date), _.options.eventHeaderFormat, 'en')+'</p></div>';
+                var eventHTML = '<div class="event-header"><p>'+_.formatDate(new Date(_.$active.date), _.options.eventHeaderFormat, _.options.language)+'</p></div>';
                 var hasEventToday = false;
                 eventHTML += '<div>';
                 for (var i = 0; i < _.options.calendarEvents.length; i++) {
@@ -467,8 +477,8 @@
                         eventHTML += '<div class="event-info"><p>'+_.limitTitle(_.options.calendarEvents[i].name)+'</p></div>';
                         eventHTML += '</div>';
                     } else if (_.options.calendarEvents[i].everyYear) {
-                        var d = _.formatDate(new Date(_.$active.date), 'mm/dd', 'en');
-                        var dd = _.formatDate(new Date(_.options.calendarEvents[i].date), 'mm/dd', 'en');
+                        var d = _.formatDate(new Date(_.$active.date), 'mm/dd');
+                        var dd = _.formatDate(new Date(_.options.calendarEvents[i].date), 'mm/dd');
                         if(d==dd) {
                             hasEventToday = true;
                             eventHTML += '<div class="event-container" data-event-index="'+(_.options.calendarEvents[i].id ? _.options.calendarEvents[i].id : i)+'">';
@@ -529,7 +539,7 @@
 
         if(_.options.todayHighlight) {
             // console.log(_.$current.date)
-            $('.day[data-date-val="'+_.formatDate(new Date(_.$current.date), _.options.format, 'en')+'"]').addClass('calendar-today');
+            $('.day[data-date-val="'+_.formatDate(new Date(_.$current.date), _.options.format)+'"]').addClass('calendar-today');
         }
 
         _.initEventListener();
@@ -593,14 +603,14 @@
         
         for (var i = 0; i < _.options.calendarEvents.length; i++) {
             for (var x = 0; x < monthLength; x++) {
-                var active_date = _.formatDate(new Date(_.$label.months[_.$active.month] +'/'+ (x + 1) +'/'+ _.$active.year), _.options.format, 'en');
-                // console.log(active_date, _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format, 'en'))
+                var active_date = _.formatDate(new Date(_.$label.months[_.$active.month] +'/'+ (x + 1) +'/'+ _.$active.year), _.options.format);
+                // console.log(active_date, _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format, _.defaults.language))
                 
                 if(active_date==_.options.calendarEvents[i].date) {
                     _.buildEventIndicator(active_date, _.options.calendarEvents[i].type);
                 } else if (_.options.calendarEvents[i].everyYear) {
-                    var d = _.formatDate(new Date(active_date), 'mm/dd', 'en');
-                    var dd = _.formatDate(new Date(_.options.calendarEvents[i].date), 'mm/dd', 'en');
+                    var d = _.formatDate(new Date(active_date), 'mm/dd');
+                    var dd = _.formatDate(new Date(_.options.calendarEvents[i].date), 'mm/dd');
                     if(d==dd) {
                         _.buildEventIndicator(active_date, _.options.calendarEvents[i].type);
                     }
@@ -623,22 +633,26 @@
     // select year
     EvoCalendar.prototype.selectYear = function(event) {
         var _ = this;
+        var el, yearVal;
 
-        _.$elements.activeYearEl = $(event.currentTarget);
-
-        var el = event.target.closest('[data-year-val]');
-        var yearVal = $(el).data('yearVal');
+        if (typeof event === 'string' || typeof event === 'number') {
+            if ((parseInt(event)).toString().length === 4) {
+                _.$elements.activeYearEl = '';
+                yearVal = parseInt(event);
+            }
+        } else {
+            _.$elements.activeYearEl = $(event.currentTarget);
+            el = event.target.closest('[data-year-val]');
+            yearVal = $(el).data('yearVal');
+        }
 
         if(yearVal == "prev") {
             --_.$active.year;
         } else if (yearVal == "next") {
             ++_.$active.year;
-        } else {
-            // number
+        } else if (typeof yearVal === 'number') {
+            _.$active.year = yearVal;
         }
-
-        $('[data-year-val]').removeClass('active-year');
-        $(_.$elements.activeYearEl).addClass('active-year');
 
         $('.calendar-year p').text(_.$active.year);
          _.buildCalendar('inner', null, _.$active.year);
@@ -648,23 +662,49 @@
     EvoCalendar.prototype.selectMonth = function(event) {
         var _ = this;
         
-        _.$elements.activeMonthEl = $(event.currentTarget);
-        _.$active.month = _.$elements.activeMonthEl.data('monthVal');
+        if (typeof event === 'string' || typeof event === 'number') {
+            if (event >= 0 && event <=_.$label.months.length) {
+                // if: 0-11
+                _.$elements.activeMonthEl = $('[data-month-val="'+event+'"]');
+                _.$active.month = (event).toString();
+            } else {
+                // else: active month
+                _.$elements.activeMonthEl = $('[data-month-val="'+_.$active.month+'"]');
+            }
+        } else {
+            // if month is manually selected
+            _.$elements.activeMonthEl = $(event.currentTarget);
+            _.$active.month = _.$elements.activeMonthEl.data('monthVal');
+        }
         
         $('[data-month-val]').removeClass('active-month');
         _.$elements.activeMonthEl.addClass('active-month');
          _.buildCalendar('inner', _.$active.month);
     };
 
+    
     // select specific date
     EvoCalendar.prototype.selectDate = function(event) {
         var _ = this;
         var oldDate = _.$active.date;
+        var date, year, month, day;
 
-        // Set new active day element
-        _.$elements.activeDayEl = $(event.currentTarget);
+        if (typeof event === 'string' || typeof event === 'number' || event instanceof Date) {
+            date = _.formatDate(event, _.options.format);
+            year = new Date(date).getFullYear();
+            month = new Date(date).getMonth();
+            day = new Date(date).getDate();
+            
+            _.selectYear(year);
+            _.selectMonth(month);
+            _.$elements.activeDayEl = $('[data-date-val="'+date+'"]');
+        } else {
+            _.$elements.activeDayEl = $(event.currentTarget);
+            date = _.$elements.activeDayEl.data('dateVal')
+        }
+
         // Set new active date
-        _.$active.date = _.$elements.activeDayEl.data('dateVal');
+        _.$active.date = date;
         // Remove active class to all
         $('.day').removeClass('calendar-active');
         // Add active class to selected date
@@ -683,20 +723,7 @@
     // GET ACTIVE DATE
     EvoCalendar.prototype.getActiveDate = function() {
         var _ = this;
-        
-        // var dateString = "2015-12-31 00:00:00";
-        // var iosDate = new Date(dateString.replace(/-/g, '/'));
-        // var arr = dateString.split(/[- :]/);
-        // var iosDate2 = new Date(arr[0], arr[1]-1, arr[2], arr[3], arr[4], arr[5]);
-        // console.log(dateString, ' - ', iosDate2)
-        // var ff = _.formatDate(new Date(_.$active.date), _.options.format, _.options.language);
-        // var gg = new Date(ff).toISOString();
-        // var s = new Date(gg).toString().replace(/[ :]/g, "-").split("-");
-        // var iosDate = new Date( s[0], s[1], s[2], s[3], s[4], s[5] );
-
-        // console.log(s, iosDate);
-
-        return _.formatDate(new Date(_.$active.date), _.options.format, _.options.language)
+        return _.formatDate(new Date(_.$active.date), _.options.format)
     }
     
     // GET ACTIVE EVENTS
@@ -753,7 +780,7 @@
         var _ = this;
         for(var i=0; i < arr.length; i++) {
             if(_.isValidDate(arr[i].date)) {
-                arr[i].date = _.formatDate(new Date(arr[i].date), _.options.format, 'en');
+                arr[i].date = _.formatDate(new Date(arr[i].date), _.options.format);
                 _.options.calendarEvents.push(arr[i]);
                 // If event doesn't have an id, assign its index
                 if(!_.options.calendarEvents[_.options.calendarEvents.length-1].id) {
@@ -772,7 +799,7 @@
         for(var i=0; i < arr.length; i++) {
             // Array index
             var index = _.options.calendarEvents.map(function (event) { return event.id }).indexOf(arr[i]);
-            var active_date = _.formatDate(new Date(_.options.calendarEvents[index].date), _.options.format, 'en');
+            var active_date = _.formatDate(new Date(_.options.calendarEvents[index].date), _.options.format);
             var type = _.options.calendarEvents[index].type;
             // Remove event from calendar events
             _.options.calendarEvents.splice(index, 1);
