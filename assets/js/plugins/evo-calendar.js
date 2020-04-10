@@ -117,13 +117,13 @@
                 }
             }
 
-            if(_.options.disabledDate != null) {
-                for(var i=0; i < _.options.disabledDate.length; i++) {
-                    if(_.isValidDate(_.options.disabledDate[i])) {
-                        _.options.disabledDate[i] = _.formatDate(new Date(_.options.disabledDate[i]), _.options.format, 'en')
-                    }
-                }
-            }
+            // if(_.options.disabledDate != null) {
+            //     for(var i=0; i < _.options.disabledDate.length; i++) {
+            //         if(_.isValidDate(_.options.disabledDate[i])) {
+            //             _.options.disabledDate[i] = _.formatDate(new Date(_.options.disabledDate[i]), _.options.format, 'en')
+            //         }
+            //     }
+            // }
 
             
             // Global variables
@@ -227,6 +227,7 @@
         if (format.toDisplay)
             return format.toDisplay(date, format, language);
 
+        date = date.toISOString();
         
         var val = {
             d: new Date(date).getDate(),
@@ -238,6 +239,7 @@
             yy: new Date(date).getFullYear().toString().substring(2),
             yyyy: new Date(date).getFullYear()
         };
+        // console.log(date)
         // var val = {
         //     d: new Date(date).getUTCDate(),
         //     D: _.initials.dates[language].daysShort[new Date(date).getUTCDay()],
@@ -257,7 +259,7 @@
                 date.push(seps.shift());
             date.push(val[format.parts[i]]);
         }
-        console.log(date.join(''))
+        // console.log(date.join(''))
         return date.join('');
     };
 
@@ -525,7 +527,8 @@
         }
 
         if(_.options.todayHighlight) {
-            $('.day[data-date-val="'+_.formatDate(_.$label.months[_.$current.month] +'/'+ new Date(_.$current.date).getDate() +'/'+ _.$current.year, _.options.format, 'en')+'"]').addClass('calendar-today');
+            // console.log(_.$current.date)
+            $('.day[data-date-val="'+_.formatDate(new Date(_.$current.date), _.options.format, 'en')+'"]').addClass('calendar-today');
         }
 
         _.initEventListener();
