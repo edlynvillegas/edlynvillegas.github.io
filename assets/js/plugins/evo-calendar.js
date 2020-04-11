@@ -242,7 +242,8 @@
         if (format.toDisplay)
             return format.toDisplay(date, format, language);
             
-        date = new Date(date).toISOString();
+        // date = new Date(date).toISOString();
+        date = new Date(date).getTime();
         
         var val = {
             d: new Date(date).getDate(),
