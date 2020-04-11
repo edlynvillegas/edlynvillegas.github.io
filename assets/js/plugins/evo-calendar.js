@@ -429,7 +429,7 @@
                 for (var j = 0; j <= 6; j++) { 
                     calendarHTML += '<td class="calendar-day">';
                     if (day <= monthLength && (i > 0 || j >= startingDay)) {
-                        var thisDay = _.formatDate(new Date(monthName +'/'+ day +'/'+ new_year), _.options.format);
+                        var thisDay = new Date(monthName +'/'+ day +'/'+ new_year).getTime();
                         calendarHTML += '<div class="day'
                         calendarHTML += ((_.$active.date === thisDay) ? ' calendar-active' : '') + '" data-date-val="'+thisDay+'">'+day+'</div>';
                         day++;
@@ -454,7 +454,7 @@
                 var hasEventToday = false;
                 eventHTML += '<div>';
                 for (var i = 0; i < _.options.calendarEvents.length; i++) {
-                    if(_.$active.date === _.options.calendarEvents[i].date) {
+                    if(_.$active.date === new Date(_.options.calendarEvents[i].date).getTime()) {
                         hasEventToday = true;
                         _.$active.events.push(_.options.calendarEvents[i])
                         eventHTML += '<div class="event-container" data-event-index="'+(_.options.calendarEvents[i].id ? _.options.calendarEvents[i].id : i)+'">';
@@ -524,7 +524,7 @@
 
         if(_.options.todayHighlight) {
             // console.log(_.$current.date)
-            $('.day[data-date-val="'+_.formatDate(new Date(_.$current.date), _.options.format)+'"]').addClass('calendar-today');
+            $('.day[data-date-val="'+new Date(_.$current.date).getTime()+'"]').addClass('calendar-today');
         }
 
         _.initEventListener();
@@ -533,7 +533,7 @@
 
     EvoCalendar.prototype.buildEventIndicator = function(active_date, type) {
         var _ = this;
-        
+        console.log(active_date)
         var thisDate = $('[data-date-val="'+active_date+'"]');
         thisDate.addClass('calendar-'+ type);
 
@@ -588,10 +588,10 @@
         
         for (var i = 0; i < _.options.calendarEvents.length; i++) {
             for (var x = 0; x < monthLength; x++) {
-                var active_date = _.formatDate(new Date(_.$label.months[_.$active.month] +'/'+ (x + 1) +'/'+ _.$active.year), _.options.format);
+                var active_date = new Date(_.$label.months[_.$active.month] +'/'+ (x + 1) +'/'+ _.$active.year).getTime();
                 // console.log(active_date, _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format, _.defaults.language))
                 
-                if(active_date==_.options.calendarEvents[i].date) {
+                if(active_date==new Date(_.options.calendarEvents[i].date).getTime()) {
                     _.buildEventIndicator(active_date, _.options.calendarEvents[i].type);
                 } else if (_.options.calendarEvents[i].everyYear) {
                     var d = _.formatDate(new Date(active_date), 'mm/dd');
@@ -675,7 +675,7 @@
         var date, year, month, day;
 
         if (typeof event === 'string' || typeof event === 'number' || event instanceof Date) {
-            date = _.formatDate(event, _.options.format);
+            date = new Date(event).getTime();
             year = new Date(date).getFullYear();
             month = new Date(date).getMonth();
             day = new Date(date).getDate();
@@ -793,7 +793,7 @@
             var index = _.options.calendarEvents.map(function (event) { return event.id }).indexOf(data);
             
             if (index > 0) {
-                var active_date = _.formatDate(new Date(_.options.calendarEvents[index].date), _.options.format);
+                var active_date = new Date(_.options.calendarEvents[index].date).getTime();
                 var type = _.options.calendarEvents[index].type;
                 // Remove event from calendar events
                 _.options.calendarEvents.splice(index, 1);
