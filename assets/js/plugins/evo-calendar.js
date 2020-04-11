@@ -450,7 +450,7 @@
         function buildEventListHTML() {
             if(_.options.calendarEvents != null) {
                 _.$active.events = [];
-                var eventHTML = '<div class="event-header"><p>'+_.formatDate(new Date(_.$active.date), _.options.eventHeaderFormat, _.options.language)+'</p></div>';
+                var eventHTML = '<div class="event-header"><p>'+_.formatDate(_.$active.date, _.options.eventHeaderFormat, _.options.language)+'</p></div>';
                 var hasEventToday = false;
                 eventHTML += '<div>';
                 for (var i = 0; i < _.options.calendarEvents.length; i++) {
