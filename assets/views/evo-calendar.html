@@ -12,7 +12,8 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="/assets/css/evo-calendar.css">
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
-</head>
+
+    
 <style>
     body {
         background-image: linear-gradient(-45deg, #57abaf, #f1f1f1);
@@ -48,6 +49,7 @@
         }
     }
 </style>
+</head>
 <body>
     <main>
         <h1><span>evo</span>calendar</h1>
@@ -64,35 +66,47 @@
             sidebarToggler: true,
             eventListToggler: true,
             eventDisplayDefault: false,
-            canAddEvent: false,
             calendarEvents: [
-                { name: "New Year", date: "Wed Jan 01 2020 00:00:00 GMT-0800 (Pacific Standard Time)", type: "holiday", everyYear: true },
-                { name: "Valentine's Day", date: "Fri Feb 14 2020 00:00:00 GMT-0800 (Pacific Standard Time)", type: "holiday", everyYear: true },
-                { name: "Patient #1", date: "February/3/2020", type: "event" },
-                { name: "Patient #3", date: "February/3/2020", type: "event" },
-                { name: "Patient #4", date: "February/3/2020", type: "event" },
-                { name: "Holiday #3", date: "February/3/2020", type: "holiday" },
-                { name: "Birthday #2", date: "February/3/2020", type: "birthday" },
-                { name: "Author's Birthday", date: "February/15/2020", type: "birthday", everyYear: true },
-                { name: "Holiday #4", date: "February/15/2020", type: "event" },
-                { name: "Patient #2", date: "February/8/2020", type: "event" },
-                { name: "Leap day", date: "February/29/2020", type: "holiday", everyYear: true },
-                { name: "Patient #5", date: "April/4/2020", type: "event" },
-                { name: "Holy Thursday po hehe", date: "April/9/2020", type: "holiday" },
-                { name: "Good Friday", date: "April/10/2020", type: "holiday" }
+                { id: '4hducye', name: "New Year", date: "Wed Jan 01 2020 00:00:00 GMT-0800 (Pacific Standard Time)", type: "holiday", everyYear: true },
+                { id: 'hs64cnx', name: "Valentine's Day", date: "Fri Feb 14 2020 00:00:00 GMT-0800 (Pacific Standard Time)", type: "holiday", everyYear: true },
+                { id: '67fmuzc', name: "Patient #1", date: "February/3/2020", type: "event" },
+                { id: '2hcysnf', name: "Patient #3", date: "February/3/2020", type: "event" },
+                { id: '08keycs', name: "Patient #4", date: "February/3/2020", type: "event" },
+                { id: '4hskivu', name: "Holiday #3", date: "February/3/2020", type: "holiday" },
+                { id: '75ibnwu', name: "Birthday #2", date: "February/3/2020", type: "birthday" },
+                { id: 'y83edhi', name: "Author's Birthday", date: "February/15/2020", type: "birthday", everyYear: true },
+                { id: '865ijgg', name: "Holiday #4", date: "February/15/2020", type: "event" },
+                { id: '97kohkg', name: "Patient #2", date: "February/8/2020", type: "event" },
+                { id: '16yghbd', name: "Leap day", date: "February/29/2020", type: "holiday", everyYear: true },
+                { id: 'cbjndos', name: "Patient #5", date: "April/4/2020", type: "event" },
+                { id: '3fxzb63', name: "Holy Thursday po hehe", date: "April/9/2020", type: "holiday" },
+                { id: '76hkfis', name: "Good Friday", date: "April/10/2020", type: "holiday" }
             ]
         });
         $("#evoCalendar").on('selectDate', function(event, newDate, oldDate) {
-            
+            var activeEvents = $("#evoCalendar").evoCalendar('getActiveEvents');
+            console.log(activeEvents);
         });
         $("#evoCalendar").on('selectEvent', function(event, index, activeEvent) {
-            
+            console.log(index, activeEvent);
         });
-
-        setTimeout(() => {
-            // $("#evoCalendar").evoCalendar('removeCalendarEvent', [11, 12, 13]);
-            $("#evoCalendar").evoCalendar('addCalendarEvent', [{ name: "Get evocalendar some upgrade today", date: new Date(), type: "event" }]);
+        setTimeout(function() {
+            // var activeDate = $("#evoCalendar").evoCalendar('getActiveDate');
+            // console.log(activeDate)
+            // $("#evoCalendar").evoCalendar('selectDate', 'February/15/2020');
+            // $("#evoCalendar").evoCalendar('selectYear', 1999); // Valid year
+            // $("#evoCalendar").evoCalendar('selectMonth', '1'); // 0-11
+            // $("#evoCalendar").evoCalendar('selectDate', new Date()); // A valid date
+            $("#evoCalendar").evoCalendar('addCalendarEvent', [{ id: 'hhregv2', name: "Get evocalendar some upgrade today", date: new Date().getTime(), type: "event" }]);
         }, 1000);
+
+        setTimeout(function() {
+            $("#evoCalendar").evoCalendar('removeCalendarEvent', '3fxzb63');
+            $("#evoCalendar").evoCalendar('addCalendarEvent', [{ id: 'oygrdy7', name: "Fix iOS compatibility", date: new Date().getTime(), type: "event" },{ id: 'plu6ne4', name: "Fix [data-date-val] date format", date: new Date().getTime(), type: "event" }]);
+        }, 2000); 
+        setTimeout(function() {
+            $("#evoCalendar").evoCalendar('addCalendarEvent', { id: '13vae5y', name: "Add new theme", date: new Date().getTime(), type: "event" });
+        }, 3000); 
     </script>
 </body>
 </html>

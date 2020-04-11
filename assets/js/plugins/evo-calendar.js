@@ -5,20 +5,18 @@
 +------------------------+
 
 +--- SETTINGS ---+
-(/) theme 
-- calendarEvents:
-    + everyWeek (boolean)
+(/) theme
 
 +--- METHODS ----+
 
 (/) addCalendarEvent -> array -> Add Calendar event(s)
-(/) removeCalendarEvent -> array -> Remove event(s) by their index
+(/) removeCalendarEvent -> array/id -> Remove event(s) by their id
 ** new **
 (/) toggleSidebar -> arg: bool (optional) -> Toggle sidebar display
 (/) toggleEventList -> arg: bool (optional) -> Toggle event list display
 (/) getActiveDate -> none -> Get the selected date
 (/) getActiveEvents  -> none -> Get the event(s) of selected date
-(/) selectDate -> date -> Select date programmatically
+(/) selectDate -> date -> Select date programmatically **(formatted date)
 (/) selectMonth -> date -> Select month programmatically
 (/) selectYear -> date -> Select year programmatically
 
@@ -28,13 +26,28 @@
 
 +---- TO DO -----+
 - EvoCalendar demo page (edlynvillegas.github.io/evo-calendar)
-- separate functions for:
-    - buildMainHTML
-    - buildSidebarHTML
-    - buildCalendarHTML
-    - buildEventListHTML
+- format settings for getActiveDate()
+- Fix iOS compatibility 
 (/) organize global variables
 - add function to check if date is valid
+
+
++-- VERSION 1.2.0 --+
+- able to add event type (name, color)
+- calendarEvents:
+    + everyWeek (boolean)
+
++-- VERSION 1.3.0 --+
+- multi-day event
+- Select date range
+
++-- VERSION 1.4.0 --+
+- time functionality
+  - start & end time
+  - arrange event by their time (start time)
+  - see event time
+  - time filter
+  
 
 */
 
@@ -74,8 +87,7 @@
                 eventListToggler: true,
                 eventDisplayDefault: true,
                 calendarEvents: null,
-                disabledDate: null,
-                canAddEvent: true
+                disabledDate: null
             };
 
             _.initials = {
@@ -110,12 +122,12 @@
             // Format Calendar Events into selected format
             if(_.options.calendarEvents != null) {
                 for(var i=0; i < _.options.calendarEvents.length; i++) {
+                    // If event doesn't have an id, throw an error
+                    if(!_.options.calendarEvents[i].id) {
+                        console.log("%c Event named: \""+_.options.calendarEvents[i].name+"\" doesn't have a unique ID ", "color:white;font-weight:bold;background-color:#e21d1d;");
+                    }
                     if(_.isValidDate(_.options.calendarEvents[i].date)) {
                         _.options.calendarEvents[i].date = _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format)
-                    }
-                    // If event doesn't have an id, assign its index
-                    if(!_.options.calendarEvents[i].id) {
-                        _.options.calendarEvents[i].id = i;
                     }
                 }
             }
@@ -192,16 +204,15 @@
     }());
 
     EvoCalendar.prototype.limitTitle = function(title, limit) {
-        const newTitle = [];
+        var newTitle = [];
         limit = limit === undefined ? 18 : limit;
-        // console.log((title).split(' ').join('').length)
         if ((title).split(' ').join('').length > limit) {
-            title.split(' ').reduce((acc, cur) => {
-                if (acc + cur.length <= limit) {
-                    newTitle.push(cur)
+            var t = title.split(' ');
+            for (var i=0; i<t.length; i++) {
+                if (t[i].length + newTitle.join('').length <= limit) {
+                    newTitle.push(t[i])
                 }
-                return acc + cur.length
-            }, 0)
+            }
             return newTitle.join(' ') + '...'
         }
         return title;
@@ -216,7 +227,7 @@
         var separators = format.replace(_.initials.validParts, '\0').split('\0'),
             parts = format.match(_.initials.validParts);
         if (!separators || !separators.length || !parts || parts.length === 0){
-            throw new Error("Invalid date format.");
+            console.log("%c Invalid date format ", "color:white;font-weight:bold;background-color:#e21d1d;");
         }
         return {separators: separators, parts: parts};
     };
@@ -308,13 +319,6 @@
             .off('click.evocalendar')
             .on('click.evocalendar', _.toggleEventList);
         }
-        
-        // IF canAddEvent: set event listener: onAddEvent
-        if(_.options.canAddEvent) {
-            $('#eventAddButton')
-            .off('click.evocalendar')
-            .on('click.evocalendar', _.options.onAddEvent);
-        }
 
         // set event listener for each day
         $('[data-date-val]')
@@ -336,22 +340,6 @@
         .off('click.evocalendar')
         .on('click.evocalendar', _.selectEvent);
     };
-
-
-    // EvoCalendar.prototype.buildBaseMarkup = function() {
-    //     var mainHTML = '<div class="calendar-sidebar"></div><div class="calendar-inner"></div><div class="calendar-events"></div>';
-    //     if(_.options.canAddEvent) {
-    //         mainHTML += '<span id="eventAddButton" title="Add event">ADD EVENT</span>';
-    //     }
-    //     if(_.options.eventListToggler) {
-    //         mainHTML += '<span id="eventListToggler" title="Close event list"><button class="icon-button"><span class="chevron-arrow-right"></span></button></span>';
-    //     }
-    //     _.$markups.mainHTML = mainHTML;
-    //     _.setCalendarBase()
-    // }
-    // EvoCalendar.prototype.setCalendarBase = function() {
-    //     _.$elements.calendarEl.html(_.$markups.mainHTML);
-    // }
 
     EvoCalendar.prototype.buildCalendar = function(val, new_month, new_year) {
         var _ = this;
@@ -398,9 +386,7 @@
         
         function buildMainHTML() {
             var mainHTML = '<div class="calendar-sidebar"></div><div class="calendar-inner"></div><div class="calendar-events"></div>';
-            if(_.options.canAddEvent) {
-                mainHTML += '<span id="eventAddButton" title="Add event">ADD EVENT</span>';
-            }
+            
             if(_.options.eventListToggler) {
                 mainHTML += '<span id="eventListToggler" title="Close event list"><button class="icon-button"><span class="chevron-arrow-right"></span></button></span>';
             }
@@ -423,10 +409,9 @@
         }
 
         function buildCalendarHTML() {
-            console.log(monthName +' '+ new_year)
             calendarHTML = '<table class="calendar-table">';
             calendarHTML += '<tr><th colspan="7">';
-            calendarHTML +=  _.formatDate(new Date(monthName +'/1/'+ new_year), _.options.titleFormat, _.options.language);
+            calendarHTML +=  _.formatDate(new Date(monthName +' 1 '+ new_year), _.options.titleFormat, _.options.language);
             calendarHTML += '</th></tr>';
             calendarHTML += '<tr class="calendar-header">';
             for(var i = 0; i <= 6; i++ ){
@@ -462,7 +447,6 @@
         }
         
         function buildEventListHTML() {
-            console.log('build event', _.$active.date)
             if(_.options.calendarEvents != null) {
                 _.$active.events = [];
                 var eventHTML = '<div class="event-header"><p>'+_.formatDate(new Date(_.$active.date), _.options.eventHeaderFormat, _.options.language)+'</p></div>';
@@ -623,7 +607,7 @@
     // Select event
     EvoCalendar.prototype.selectEvent = function(event) {
         var _ = this;
-        var el = event.target.closest('.event-container');
+        var el = $(event.target).closest('.event-container');
         var id = $(el).data('eventIndex');
         var index = _.options.calendarEvents.map(function (event) { return event.id }).indexOf(id);
         // console.log(id, _.options.calendarEvents[index])
@@ -642,7 +626,7 @@
             }
         } else {
             _.$elements.activeYearEl = $(event.currentTarget);
-            el = event.target.closest('[data-year-val]');
+            el = $(event.target).closest('[data-year-val]');
             yearVal = $(el).data('yearVal');
         }
 
@@ -778,36 +762,54 @@
     // ADD CALENDAR EVENT(S)
     EvoCalendar.prototype.addCalendarEvent = function(arr) {
         var _ = this;
-        for(var i=0; i < arr.length; i++) {
-            if(_.isValidDate(arr[i].date)) {
-                arr[i].date = _.formatDate(new Date(arr[i].date), _.options.format);
-                _.options.calendarEvents.push(arr[i]);
-                // If event doesn't have an id, assign its index
-                if(!_.options.calendarEvents[_.options.calendarEvents.length-1].id) {
-                    _.options.calendarEvents[_.options.calendarEvents.length-1].id = _.options.calendarEvents.length-1;
-                }
+
+        function addEvent(data) {
+            if(!data.id) {
+                console.log("%c Event named: \""+data.name+"\" doesn't have a unique ID ", "color:white;font-weight:bold;background-color:#e21d1d;");
+            }
+            if(_.isValidDate(data.date)) {
+                data.date = _.formatDate(new Date(data.date), _.options.format);
+                _.options.calendarEvents.push(data);
+                _.buildCalendar('inner');
+                _.buildCalendar('events');
             }
         }
-         _.buildCalendar('inner');
-         _.buildCalendar('events');
+        if (arr instanceof Array) { // Arrays of events
+            for(var i=0; i < arr.length; i++) {
+                addEvent(arr[i])
+            }
+        } else if (typeof arr === 'object') { // Single event
+            addEvent(arr)
+        }
     };
 
     // REMOVE CALENDAR EVENT(S)
     EvoCalendar.prototype.removeCalendarEvent = function(arr) {
         var _ = this;
 
-        for(var i=0; i < arr.length; i++) {
+        function deleteEvent(data) {
             // Array index
-            var index = _.options.calendarEvents.map(function (event) { return event.id }).indexOf(arr[i]);
-            var active_date = _.formatDate(new Date(_.options.calendarEvents[index].date), _.options.format);
-            var type = _.options.calendarEvents[index].type;
-            // Remove event from calendar events
-            _.options.calendarEvents.splice(index, 1);
-            // Remove event from DOM
-            $('[data-event-index="'+arr[i]+'"]').remove();
-            _.removeEventIndicator(active_date, type);
+            var index = _.options.calendarEvents.map(function (event) { return event.id }).indexOf(data);
+            
+            if (index > 0) {
+                var active_date = _.formatDate(new Date(_.options.calendarEvents[index].date), _.options.format);
+                var type = _.options.calendarEvents[index].type;
+                // Remove event from calendar events
+                _.options.calendarEvents.splice(index, 1);
+                // Remove event from DOM
+                $('[data-event-index="'+data+'"]').remove();
+                _.removeEventIndicator(active_date, type);
+            } else {
+                console.log("%c "+data+": ID not found ", "color:white;font-weight:bold;background-color:#e21d1d;");
+            }
         }
-        // console.log(_.buildEventIndicator)
+        if (arr instanceof Array) { // Arrays of index
+            for(var i=0; i < arr.length; i++) {
+                deleteEvent(arr[i])
+            }
+        } else { // Single index
+            deleteEvent(arr)
+        }
     };
 
     EvoCalendar.prototype.isValidDate = function(d){
