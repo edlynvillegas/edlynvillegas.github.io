@@ -713,7 +713,7 @@
     EvoCalendar.prototype.getCurrentDate = function() {
         var _ = this;
         // var current_date = _.formatDate(new Date(_.$current.date), _.options.format, _.options.language);
-        return 'April/12/2020';
+        return 'April-12-2020';
     }
     
     // GET ACTIVE EVENTS
