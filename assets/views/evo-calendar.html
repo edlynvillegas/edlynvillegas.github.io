@@ -84,14 +84,12 @@
         });
         $("#evoCalendar").on('selectDate', function(event, newDate, oldDate) {
             var activeDate = $("#evoCalendar").evoCalendar('getActiveDate');
-            var currentDate = $("#evoCalendar").evoCalendar('getCurrentDate');
             var activeEvents = $("#evoCalendar").evoCalendar('getActiveEvents');
             // new Date().getTime() - Invalid Date
             // 'April/12/2020' - working
             // new Date('April/12/2020').getTime() - Invalid Date
             // var datessss = new Date('April/12/2020'); date.getTime() - 
-            var datessss = new Date('April/12/2020')
-            alert('ACTIVE DATE: ' + activeDate + ' CURRENT DATE v3: ' + 'April-12-2020' + ' ' + new Date().toISOString())
+            alert('ACTIVE DATE: ' + activeDate)
             console.log(activeDate, activeEvents);
         });
         $("#evoCalendar").on('selectEvent', function(event, index, activeEvent) {

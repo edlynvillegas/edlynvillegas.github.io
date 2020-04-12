@@ -31,15 +31,6 @@
 (/) organize global variables
 - add function to check if date is valid
 
-
-use formatDate():
- - getActiveDate()
- - getActiveEvents()
- - on: selectDate
- - on: selectEvent
- - event-header (eventTitleFormat)
- - <th> (titleFormat)
-
 +-- VERSION 1.2.0 --+
 - able to add event type (name, color)
 - calendarEvents:
@@ -192,6 +183,7 @@ use formatDate():
                 activeYearEl: ''
             }
 
+            _.formatDate = $.proxy(_.formatDate, _);
             _.selectDate = $.proxy(_.selectDate, _);
             _.selectMonth = $.proxy(_.selectMonth, _);
             _.selectYear = $.proxy(_.selectYear, _);
@@ -254,6 +246,15 @@ use formatDate():
         // date = new Date(date).toISOString();
         // console.log(date)
         var ndate = new Date(date);
+        if (!_.isValidDate(ndate)) {
+            // var formast = 'mm-dd-yyyy'; // default formast
+            // var parts = date.match(/(\d+)/g), 
+            //     i = 0, fmt = {};
+            // // extract date-part indexes from the formast
+            // formast.replace(/(yyyy|dd|mm)/g, function(part) { fmt[part] = i++; });
+            // ndate = new Date(parts[fmt['yyyy']], parts[fmt['mm']]-1, parts[fmt['dd']])
+            ndate = new Date(date.replace(/-/g, '/'))
+        }
         
         var val = {
             d: ndate.getDate(),
@@ -460,7 +461,7 @@ use formatDate():
         function buildEventListHTML() {
             if(_.options.calendarEvents != null) {
                 _.$active.events = [];
-                var eventHTML = '<div class="event-header"><p>'+_.formatDate(_.$active.date, _.options.eventHeaderFormat, _.options.language)+'</p></div>';
+                var eventHTML = '<div class="event-header"><p>'+_.formatDate(_.$active.date, _.options.eventHeaderFormat, _.options.language, 'lol')+'</p></div>';
                 var hasEventToday = false;
                 eventHTML += '<div>';
                 for (var i = 0; i < _.options.calendarEvents.length; i++) {
@@ -715,13 +716,8 @@ use formatDate():
     // GET ACTIVE DATE
     EvoCalendar.prototype.getActiveDate = function() {
         var _ = this;
-        var active_date = _.formatDate(new Date(_.$active.date), _.options.format, _.options.language);
-        return active_date;
-    }
-    EvoCalendar.prototype.getCurrentDate = function() {
-        var _ = this;
-        var current_date = _.formatDate(new Date(_.$current.date), _.options.format, _.options.language);
-        return current_date;
+        // var active_date = _.formatDate(new Date(_.$active.date), _.options.format, _.options.language);
+        return _.$active.date;
     }
     
     // GET ACTIVE EVENTS
