@@ -705,7 +705,8 @@
     // GET ACTIVE DATE
     EvoCalendar.prototype.getActiveDate = function() {
         var _ = this;
-        return _.formatDate(new Date(_.$active.date), _.options.format, _.options.language)
+        var active_date = _.formatDate(new Date(_.$active.date), _.options.format, _.options.language);
+        return active_date;
     }
     
     // GET ACTIVE EVENTS
