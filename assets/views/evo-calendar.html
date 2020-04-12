@@ -86,6 +86,7 @@
         $("#evoCalendar").on('selectDate', function(event, newDate, oldDate) {
             var activeDate = $("#evoCalendar").evoCalendar('getActiveDate');
             var activeEvents = $("#evoCalendar").evoCalendar('getActiveEvents');
+            alert('ACTIVE DATE: ' + activeDate)
             console.log(activeDate, activeEvents);
         });
         $("#evoCalendar").on('selectEvent', function(event, index, activeEvent) {
