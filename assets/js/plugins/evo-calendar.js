@@ -147,7 +147,7 @@
             _.$current = {
                 month: (isNaN(this.month) || this.month == null) ? new Date().getMonth() : this.month,
                 year: (isNaN(this.year) || this.year == null) ? new Date().getFullYear() : this.year,
-                date: new Date(_.initials.dates[_.defaults.language].months[new Date().getMonth()]+' '+new Date().getDate()+' '+ new Date().getFullYear()).getTime()
+                date: _.formatDate(new Date(), _.options.format)
             }
 
             // ACTIVE
@@ -525,7 +525,8 @@
         }
 
         if(_.options.todayHighlight) {
-            $('.day[data-date-val="'+_.$current.date+'"]').addClass('calendar-today');
+            // console.log(_.$current.date)
+            $('.day[data-date-val="'+new Date(_.$current.date).getTime()+'"]').addClass('calendar-today');
         }
 
         _.initEventListener();
@@ -534,6 +535,7 @@
 
     EvoCalendar.prototype.buildEventIndicator = function(active_date, type) {
         var _ = this;
+        console.log(active_date)
         var thisDate = $('[data-date-val="'+active_date+'"]');
 
         if($('[data-date-val="'+active_date+'"] span.event-indicator').length == 0) {
@@ -586,6 +588,7 @@
         for (var i = 0; i < _.options.calendarEvents.length; i++) {
             for (var x = 0; x < monthLength; x++) {
                 var active_date = new Date(_.$label.months[_.$active.month] +'/'+ (x + 1) +'/'+ _.$active.year).getTime();
+                // console.log(active_date, _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format, _.defaults.language))
                 
                 if(active_date==new Date(_.options.calendarEvents[i].date).getTime()) {
                     _.buildEventIndicator(active_date, _.options.calendarEvents[i].type);
@@ -812,15 +815,6 @@
             deleteEvent(arr)
         }
     };
-
-    
-	EvoCalendar.prototype.isUTCEquals = function(date1, date2) {
-		return (
-			date1.getUTCFullYear() === date2.getUTCFullYear() &&
-			date1.getUTCMonth() === date2.getUTCMonth() &&
-			date1.getUTCDate() === date2.getUTCDate()
-		);
-	}
 
     EvoCalendar.prototype.isValidDate = function(d){
         return new Date(d) && !isNaN(new Date(d).getTime());
