@@ -130,6 +130,7 @@
                         _.options.calendarEvents[i].date = _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format)
                     }
                 }
+                // console.log(_.options.calendarEvents)
             }
 
             // if(_.options.disabledDate != null) {
@@ -147,7 +148,7 @@
             _.$current = {
                 month: (isNaN(this.month) || this.month == null) ? new Date().getMonth() : this.month,
                 year: (isNaN(this.year) || this.year == null) ? new Date().getFullYear() : this.year,
-                date: _.formatDate(new Date(), _.options.format)
+                date: Date.parse(_.initials.dates[_.defaults.language].months[new Date().getMonth()]+'/'+new Date().getDate()+'/'+ new Date().getFullYear())
             }
 
             // ACTIVE
@@ -455,6 +456,7 @@
                 eventHTML += '<div>';
                 for (var i = 0; i < _.options.calendarEvents.length; i++) {
                     if(_.$active.date === new Date(_.options.calendarEvents[i].date).getTime()) {
+                        // console.log(_.$active.date, new Date(_.options.calendarEvents[i].date).getTime())
                         hasEventToday = true;
                         _.$active.events.push(_.options.calendarEvents[i])
                         eventHTML += '<div class="event-container" data-event-index="'+(_.options.calendarEvents[i].id ? _.options.calendarEvents[i].id : i)+'">';
@@ -525,8 +527,7 @@
         }
 
         if(_.options.todayHighlight) {
-            // console.log(_.$current.date)
-            $('.day[data-date-val="'+new Date(_.$current.date).getTime()+'"]').addClass('calendar-today');
+            $('.day[data-date-val="'+_.$current.date+'"]').addClass('calendar-today');
         }
 
         _.initEventListener();
@@ -535,7 +536,6 @@
 
     EvoCalendar.prototype.buildEventIndicator = function(active_date, type) {
         var _ = this;
-        console.log(active_date)
         var thisDate = $('[data-date-val="'+active_date+'"]');
 
         if($('[data-date-val="'+active_date+'"] span.event-indicator').length == 0) {
@@ -588,7 +588,6 @@
         for (var i = 0; i < _.options.calendarEvents.length; i++) {
             for (var x = 0; x < monthLength; x++) {
                 var active_date = new Date(_.$label.months[_.$active.month] +'/'+ (x + 1) +'/'+ _.$active.year).getTime();
-                // console.log(active_date, _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format, _.defaults.language))
                 
                 if(active_date==new Date(_.options.calendarEvents[i].date).getTime()) {
                     _.buildEventIndicator(active_date, _.options.calendarEvents[i].type);
@@ -815,6 +814,15 @@
             deleteEvent(arr)
         }
     };
+
+    
+	EvoCalendar.prototype.isUTCEquals = function(date1, date2) {
+		return (
+			date1.getUTCFullYear() === date2.getUTCFullYear() &&
+			date1.getUTCMonth() === date2.getUTCMonth() &&
+			date1.getUTCDate() === date2.getUTCDate()
+		);
+	}
 
     EvoCalendar.prototype.isValidDate = function(d){
         return new Date(d) && !isNaN(new Date(d).getTime());
