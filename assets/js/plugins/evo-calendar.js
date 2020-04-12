@@ -32,6 +32,14 @@
 - add function to check if date is valid
 
 
+use formatDate():
+ - getActiveDate()
+ - getActiveEvents()
+ - on: selectDate
+ - on: selectEvent
+ - event-header (eventTitleFormat)
+ - <th> (titleFormat)
+
 +-- VERSION 1.2.0 --+
 - able to add event type (name, color)
 - calendarEvents:
@@ -127,7 +135,7 @@
                         console.log("%c Event named: \""+_.options.calendarEvents[i].name+"\" doesn't have a unique ID ", "color:white;font-weight:bold;background-color:#e21d1d;");
                     }
                     if(_.isValidDate(_.options.calendarEvents[i].date)) {
-                        _.options.calendarEvents[i].date = new Date(_.options.calendarEvents[i].date).toISOString()
+                        _.options.calendarEvents[i].date = _.formatDate(_.options.calendarEvents[i].date, _.options.format)
                     }
                 }
                 console.log('CALENDAR EVENTS: ', _.options.calendarEvents)
@@ -148,7 +156,7 @@
             _.$current = {
                 month: (isNaN(this.month) || this.month == null) ? new Date().getMonth() : this.month,
                 year: (isNaN(this.year) || this.year == null) ? new Date().getFullYear() : this.year,
-                date: new Date(_.initials.dates[_.defaults.language].months[new Date().getMonth()]+'/'+new Date().getDate()+'/'+ new Date().getFullYear()).toISOString()
+                date: _.formatDate(_.initials.dates[_.defaults.language].months[new Date().getMonth()]+'/'+new Date().getDate()+'/'+ new Date().getFullYear(), _.options.format)
             }
 
             // ACTIVE
@@ -244,7 +252,7 @@
             return format.toDisplay(date, format, language);
             
         // date = new Date(date).toISOString();
-        date = new Date(date).toISOString();
+        date = new Date(date).getTime();
         
         var val = {
             d: new Date(date).getDate(),
@@ -430,7 +438,7 @@
                 for (var j = 0; j <= 6; j++) { 
                     calendarHTML += '<td class="calendar-day">';
                     if (day <= monthLength && (i > 0 || j >= startingDay)) {
-                        var thisDay = new Date(monthName +'/'+ day +'/'+ new_year).toISOString();
+                        var thisDay = _.formatDate(monthName +'/'+ day +'/'+ new_year, _.options.format);
                         calendarHTML += '<div class="day'
                         calendarHTML += ((_.$active.date === thisDay) ? ' calendar-active' : '') + '" data-date-val="'+thisDay+'">'+day+'</div>';
                         day++;
@@ -455,9 +463,8 @@
                 var hasEventToday = false;
                 eventHTML += '<div>';
                 for (var i = 0; i < _.options.calendarEvents.length; i++) {
-                    // console.log(_.$active.date, _.options.calendarEvents[i].date)
                     if(_.$active.date === _.options.calendarEvents[i].date) {
-                        console.log(_.$active.date, _.options.calendarEvents[i].date)
+                        // console.log(_.$active.date, new Date(_.options.calendarEvents[i].date).getTime())
                         hasEventToday = true;
                         _.$active.events.push(_.options.calendarEvents[i])
                         eventHTML += '<div class="event-container" data-event-index="'+(_.options.calendarEvents[i].id ? _.options.calendarEvents[i].id : i)+'">';
@@ -588,7 +595,7 @@
         
         for (var i = 0; i < _.options.calendarEvents.length; i++) {
             for (var x = 0; x < monthLength; x++) {
-                var active_date = new Date(_.$label.months[_.$active.month] +'/'+ (x + 1) +'/'+ _.$active.year).toISOString();
+                var active_date = _.formatDate(_.$label.months[_.$active.month] +'/'+ (x + 1) +'/'+ _.$active.year, _.options.format);
                 
                 if(active_date==_.options.calendarEvents[i].date) {
                     _.buildEventIndicator(active_date, _.options.calendarEvents[i].type);
@@ -611,7 +618,6 @@
         var el = $(event.target).closest('.event-container');
         var id = $(el).data('eventIndex');
         var index = _.options.calendarEvents.map(function (event) { return event.id }).indexOf(id);
-        // console.log(id, _.options.calendarEvents[index])
         $(_.$elements.calendarEl).trigger("selectEvent", [id, _.options.calendarEvents[index]])
     }
 
@@ -675,7 +681,7 @@
         var date, year, month, day;
 
         if (typeof event === 'string' || typeof event === 'number' || event instanceof Date) {
-            date = new Date(event).toISOString();
+            date = new Date(event).getTime();
             year = new Date(date).getFullYear();
             month = new Date(date).getMonth();
             day = new Date(date).getDate();
@@ -687,7 +693,7 @@
             _.$elements.activeDayEl = $(event.currentTarget);
             date = _.$elements.activeDayEl.data('dateVal')
         }
-        // console.log(date, _.$active.events)
+
         // Set new active date
         _.$active.date = date;
         // Remove active class to all
@@ -777,7 +783,8 @@
                 console.log("%c Event named: \""+data.name+"\" doesn't have a unique ID ", "color:white;font-weight:bold;background-color:#e21d1d;");
             }
             if(_.isValidDate(data.date)) {
-                data.date = new Date(data.date).toISOString();
+                data.date = _.formatDate(new Date(data.date), _.options.format);
+                // data.date = new Date(data.date).getTime();
                 _.options.calendarEvents.push(data);
                 _.buildCalendar('inner');
                 _.buildCalendar('events');
@@ -801,7 +808,7 @@
             var index = _.options.calendarEvents.map(function (event) { return event.id }).indexOf(data);
             
             if (index > 0) {
-                var active_date = _.options.calendarEvents[index].date;
+                var active_date = new Date(_.options.calendarEvents[index].date).getTime();
                 var type = _.options.calendarEvents[index].type;
                 // Remove event from calendar events
                 _.options.calendarEvents.splice(index, 1);
