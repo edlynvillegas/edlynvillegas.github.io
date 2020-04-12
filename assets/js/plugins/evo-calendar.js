@@ -252,17 +252,18 @@ use formatDate():
             return format.toDisplay(date, format, language);
             
         // date = new Date(date).toISOString();
-        date = new Date(date).getTime();
+        // console.log(date)
+        var ndate = new Date(date);
         
         var val = {
-            d: new Date(date).getDate(),
-            D: _.initials.dates[language].daysShort[new Date(date).getDay()],
-            DD: _.initials.dates[language].days[new Date(date).getDay()],
-            m: new Date(date).getMonth() + 1,
-            M: _.initials.dates[language].monthsShort[new Date(date).getMonth()],
-            MM: _.initials.dates[language].months[new Date(date).getMonth()],
-            yy: new Date(date).getFullYear().toString().substring(2),
-            yyyy: new Date(date).getFullYear()
+            d: ndate.getDate(),
+            D: _.initials.dates[language].daysShort[ndate.getDay()],
+            DD: _.initials.dates[language].days[ndate.getDay()],
+            m: ndate.getMonth() + 1,
+            M: _.initials.dates[language].monthsShort[ndate.getMonth()],
+            MM: _.initials.dates[language].months[ndate.getMonth()],
+            yy: ndate.getFullYear().toString().substring(2),
+            yyyy: ndate.getFullYear()
         };
         // console.log(date)
         // var val = {
