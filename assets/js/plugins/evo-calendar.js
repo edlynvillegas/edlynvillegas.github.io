@@ -707,13 +707,13 @@
     // GET ACTIVE DATE
     EvoCalendar.prototype.getActiveDate = function() {
         var _ = this;
-        var active_date = _.formatDate(new Date(_.$active.date), _.options.format, _.options.language);
-        return active_date;
+        // var active_date = _.formatDate(new Date(_.$active.date), _.options.format, _.options.language);
+        return _.$active.date;
     }
     EvoCalendar.prototype.getCurrentDate = function() {
         var _ = this;
-        var current_date = _.formatDate(new Date(_.$current.date), _.options.format, _.options.language);
-        return current_date;
+        // var current_date = _.formatDate(new Date(_.$current.date), _.options.format, _.options.language);
+        return _.$current.date;
     }
     
     // GET ACTIVE EVENTS
