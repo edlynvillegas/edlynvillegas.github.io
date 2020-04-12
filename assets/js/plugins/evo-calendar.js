@@ -100,19 +100,19 @@
                         months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
                         monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
                     },
-                    tl: {
-                        days: ["Linggo", "Lunes", "Martes", "Miyerkules", "Huwebes", "Biyernes", "Sabado"],
-                        daysShort: ["Linggo", "Lunes", "Martes", "Miyerkules", "Huwebes", "Biyernes", "Sabado"],
-                        daysMin: ["Linggo", "Lunes", "Martes", "Miyerkules", "Huwebes", "Biyernes", "Sabado"],
-                        months: ["Enero", "Pebrero", "Marso", "Abril", "Mayo", "Hunyo", "Hulyo", "Agosto", "Septyembre", "Oktubre", "Nobyembre", "Disyembre"],
-                        monthsShort: ["Enero", "Pebrero", "Marso", "Abril", "Mayo", "Hunyo", "Hulyo", "Agosto", "Septyembre", "Oktubre", "Nobyembre", "Disyembre"]
-                    },
                     es: {
                         days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-                        daysShort: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-                        daysMin: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-                        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Oktubre", "Nobyembre", "Disyembre"],
-                        monthsShort: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Oktubre", "Nobyembre", "Disyembre"]
+                        daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+                        daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                        months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                        monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+                    },
+                    de: {
+                        days: ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
+                        daysShort: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+                        daysMin: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+                        months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+                        monthsShort: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
                     }
                 }
             }
@@ -534,11 +534,8 @@
     EvoCalendar.prototype.buildEventIndicator = function(active_date, type) {
         var _ = this;
         var thisDate = $('[data-date-val="'+active_date+'"]');
-        thisDate.addClass('calendar-'+ type);
-
 
         if($('[data-date-val="'+active_date+'"] span.event-indicator').length == 0) {
-            // console.log(active_date, 'wala pa ni isa')
             thisDate.append('<span class="event-indicator"></span>');
         }
 
@@ -706,14 +703,16 @@
     // GET ACTIVE DATE
     EvoCalendar.prototype.getActiveDate = function() {
         var _ = this;
-        return _.formatDate(new Date(_.$active.date), _.options.format)
+        return _.formatDate(new Date(_.$active.date), _.options.format, _.options.language)
     }
     
     // GET ACTIVE EVENTS
     EvoCalendar.prototype.getActiveEvents = function() {
         var _ = this;
+        for (var i=0; i<_.$active.events.length; i++) {
+            _.$active.events[i].date = _.formatDate(new Date(_.$active.events[i].date), _.options.format, _.options.language);
+        }
         return _.$active.events;
-        // return _.formatDate(new Date(_.$active.date), _.options.format, _.options.language)
     }
 
     // TOGGLE SIDEBAR
