@@ -86,7 +86,9 @@
             var activeDate = $("#evoCalendar").evoCalendar('getActiveDate');
             var currentDate = $("#evoCalendar").evoCalendar('getCurrentDate');
             var activeEvents = $("#evoCalendar").evoCalendar('getActiveEvents');
-            alert('ACTIVE DATE: ' + activeDate + ' CURRENT DATE: ' + currentDate)
+            // new Date().getTime() - not working
+            // 'April/12/2020' - 
+            alert('ACTIVE DATE: ' + activeDate + ' CURRENT DATE v2: ' + currentDate + ' ' + new Date())
             console.log(activeDate, activeEvents);
         });
         $("#evoCalendar").on('selectEvent', function(event, index, activeEvent) {
