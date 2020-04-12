@@ -90,7 +90,7 @@
             console.log(activeDate, activeEvents);
         });
         $("#evoCalendar").on('selectEvent', function(event, index, activeEvent) {
-            console.log(index, activeEvent);
+            alert('ACTIVE EVENT: ' + activeEvent.name +' - '+ activeEvent.date)
         });
 
         setTimeout(function() {
@@ -109,7 +109,7 @@
             $("#evoCalendar").evoCalendar('addCalendarEvent', [{ id: 'oygrdy7', name: "Fix iOS compatibility", date: new Date().getTime(), type: "event" },{ id: 'plu6ne4', name: "Fix [data-date-val] date format", date: new Date().getTime(), type: "event" }]);
         }, 2000); 
         setTimeout(function() {
-            $("#evoCalendar").evoCalendar('addCalendarEvent', { id: '13vae5y', name: "Add new theme", date: 'April/12/2020', type: "event" });
+            $("#evoCalendar").evoCalendar('addCalendarEvent', { id: '13vae5y', name: "Add new theme", date: '04/12/2020', type: "event" });
         }, 3000); 
     </script>
 </body>

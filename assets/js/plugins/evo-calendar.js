@@ -461,18 +461,19 @@
                         eventHTML += '<div class="event-icon"><div class="event-bullet-'+_.options.calendarEvents[i].type+'"></div></div>';
                         eventHTML += '<div class="event-info"><p>'+_.limitTitle(_.options.calendarEvents[i].name)+'</p></div>';
                         eventHTML += '</div>';
-                    } else if (_.options.calendarEvents[i].everyYear) {
-                        var d = _.formatDate(new Date(_.$active.date), 'mm/dd');
-                        var dd = _.formatDate(new Date(_.options.calendarEvents[i].date), 'mm/dd');
-                        if(d==dd) {
-                            hasEventToday = true;
-                            _.$active.events.push(_.options.calendarEvents[i])
-                            eventHTML += '<div class="event-container" data-event-index="'+_.options.calendarEvents[i].id+'">';
-                            eventHTML += '<div class="event-icon"><div class="event-bullet-'+_.options.calendarEvents[i].type+'"></div></div>';
-                            eventHTML += '<div class="event-info"><p>'+_.limitTitle(_.options.calendarEvents[i].name)+'</p></div>';
-                            eventHTML += '</div>';
-                        }
                     }
+                    // else if (_.options.calendarEvents[i].everyYear) {
+                    //     var d = _.formatDate(new Date(_.$active.date), 'mm/dd');
+                    //     var dd = _.formatDate(new Date(_.options.calendarEvents[i].date), 'mm/dd');
+                    //     if(d==dd) {
+                    //         hasEventToday = true;
+                    //         _.$active.events.push(_.options.calendarEvents[i])
+                    //         eventHTML += '<div class="event-container" data-event-index="'+_.options.calendarEvents[i].id+'">';
+                    //         eventHTML += '<div class="event-icon"><div class="event-bullet-'+_.options.calendarEvents[i].type+'"></div></div>';
+                    //         eventHTML += '<div class="event-info"><p>'+_.limitTitle(_.options.calendarEvents[i].name)+'</p></div>';
+                    //         eventHTML += '</div>';
+                    //     }
+                    // }
                 };
                 if(!hasEventToday) {
                     eventHTML += '<p>No event for this day.. so take a rest! :)</p>';
@@ -588,13 +589,14 @@
                 
                 if(active_date==new Date(_.options.calendarEvents[i].date).getTime()) {
                     _.buildEventIndicator(active_date, _.options.calendarEvents[i].type);
-                } else if (_.options.calendarEvents[i].everyYear) {
-                    var d = _.formatDate(new Date(active_date), 'mm/dd');
-                    var dd = _.formatDate(new Date(_.options.calendarEvents[i].date), 'mm/dd');
-                    if(d==dd) {
-                        _.buildEventIndicator(active_date, _.options.calendarEvents[i].type);
-                    }
                 }
+                // else if (_.options.calendarEvents[i].everyYear) {
+                //     var d = _.formatDate(new Date(active_date), 'mm/dd');
+                //     var dd = _.formatDate(new Date(_.options.calendarEvents[i].date), 'mm/dd');
+                //     if(d==dd) {
+                //         _.buildEventIndicator(active_date, _.options.calendarEvents[i].type);
+                //     }
+                // }
             }
         };
     };
