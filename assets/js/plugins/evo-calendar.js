@@ -127,10 +127,10 @@
                         console.log("%c Event named: \""+_.options.calendarEvents[i].name+"\" doesn't have a unique ID ", "color:white;font-weight:bold;background-color:#e21d1d;");
                     }
                     if(_.isValidDate(_.options.calendarEvents[i].date)) {
-                        _.options.calendarEvents[i].date = _.formatDate(new Date(_.options.calendarEvents[i].date), _.options.format)
+                        _.options.calendarEvents[i].date = new Date(_.options.calendarEvents[i].date).getTime()
                     }
                 }
-                // console.log(_.options.calendarEvents)
+                console.log('CALENDAR EVENTS: ', _.options.calendarEvents)
             }
 
             // if(_.options.disabledDate != null) {
@@ -148,7 +148,7 @@
             _.$current = {
                 month: (isNaN(this.month) || this.month == null) ? new Date().getMonth() : this.month,
                 year: (isNaN(this.year) || this.year == null) ? new Date().getFullYear() : this.year,
-                date: Date.parse(_.initials.dates[_.defaults.language].months[new Date().getMonth()]+'/'+new Date().getDate()+'/'+ new Date().getFullYear())
+                date: new Date(_.initials.dates[_.defaults.language].months[new Date().getMonth()]+'/'+new Date().getDate()+'/'+ new Date().getFullYear()).getTime()
             }
 
             // ACTIVE
@@ -709,6 +709,11 @@
         var _ = this;
         var active_date = _.formatDate(new Date(_.$active.date), _.options.format, _.options.language);
         return active_date;
+    }
+    EvoCalendar.prototype.getCurrentDate = function() {
+        var _ = this;
+        var current_date = _.formatDate(new Date(_.$current.date), _.options.format, _.options.language);
+        return current_date;
     }
     
     // GET ACTIVE EVENTS
