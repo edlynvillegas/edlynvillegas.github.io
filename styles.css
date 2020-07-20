@@ -347,6 +347,9 @@ main {
     aside > nav > a:last-child {
         margin-right: 0;
     }
+    aside > nav > a:hover:not(.active) > svg > path:last-child {
+        fill: rgb(204, 214, 246);
+    }
 
     main {
         width: 100%;
