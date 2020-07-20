@@ -46,7 +46,7 @@ function onePageScroll(element, options) {
         /*-------------------------------------------*/
         /*  Prepare Everything                       */
         /*-------------------------------------------*/
-        var hash = window.location.hash;
+        var hash = location.hash;
         _addClass(el, "onepage-wrapper")
 
         for( var i = 0; i < sections.length; i++){
@@ -300,7 +300,6 @@ function onePageScroll(element, options) {
     _responsive = function() {
   
           if (document.body.clientWidth < settings.responsiveFallback) {
-              console.log('add disabled-onepage-scroll')
               _addClass(body, "disabled-onepage-scroll");
               document.removeEventListener('mousewheel', _mouseWheelHandler);
               document.removeEventListener('DOMMouseScroll', _mouseWheelHandler);
@@ -311,7 +310,6 @@ function onePageScroll(element, options) {
           } else {
             
             if (_hasClass(body, "disabled-onepage-scroll")) {
-                console.log('remove disabled-onepage-scroll')
               _removeClass(body, "disabled-onepage-scroll");
               _scrollTo(document.documentElement, 0, 2000);
           }
