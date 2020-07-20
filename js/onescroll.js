@@ -63,8 +63,8 @@ function onePageScroll(element, options) {
             moveDown(el);
         }, { passive: false });
         
-        if (!hash || _getSectionIndex(hash.replace("#", "")) >= 0) {
-            console.log('hereee')
+        if (hash && _getSectionIndex(hash.replace("#", "")) >= 0) {
+            console.log('hereee', hash)
             activeIndex = sectionIndex.map(function (obj) { return obj }).indexOf(hash.replace("#", ""))
             var pos, current = _getSectionEl(sectionIndex[activeIndex])
             console.log(current)
