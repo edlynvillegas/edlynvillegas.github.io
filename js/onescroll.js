@@ -67,7 +67,7 @@ function onePageScroll(element, options) {
             console.log('hereee', hash)
             activeIndex = sectionIndex.map(function (obj) { return obj }).indexOf(hash.replace("#", ""))
             var pos, current = _getSectionEl(sectionIndex[activeIndex])
-            console.log(current)
+            // console.log(current)
                 
             _addClass(current, "active")
             _addClass(_getPaginationEl(activeIndex), "active");
@@ -282,14 +282,14 @@ function onePageScroll(element, options) {
       
       var transformCSS = "-webkit-transform: translate3d(0, " + pos + "%, 0); -webkit-transition: -webkit-transform " + settings.animationTime + "ms " + settings.easing + "; -moz-transform: translate3d(0, " + pos + "%, 0); -moz-transition: -moz-transform " + settings.animationTime + "ms " + settings.easing + "; -ms-transform: translate3d(0, " + pos + "%, 0); -ms-transition: -ms-transform " + settings.animationTime + "ms " + settings.easing + "; transform: translate3d(0, " + pos + "%, 0); transition: transform " + settings.animationTime + "ms " + settings.easing + ";";
       
-      el2.style.cssText = transformCSS;
+      el.style.cssText = transformCSS;
       
       var transitionEnd = _whichTransitionEvent();
-       el2.addEventListener(transitionEnd, endAnimation, false);
+       el.addEventListener(transitionEnd, endAnimation, { passive: false });
       
       function endAnimation() {
         if (typeof settings.afterMove == 'function') settings.afterMove(index, next_el);
-        el2.removeEventListener(transitionEnd, endAnimation)
+        el.removeEventListener(transitionEnd, endAnimation)
       }
     }
     
@@ -433,8 +433,6 @@ function onePageScroll(element, options) {
     /*-------------------------------------------*/
     
     this.moveTo = function(el5, page_index) {
-        console.log('move to')
-        
         if (typeof el5 == "string") el5 = document.querySelector(el5);
         var curr = document.querySelector(settings.sectionContainer +".active").dataset.section;
         activeIndex = _getSectionIndex(curr)
@@ -451,7 +449,7 @@ function onePageScroll(element, options) {
             _addClass(_getPaginationEl(next_index), "active");
 
             pos = ((next_index) * 100) * -1;
-            console.log(next_index, pos)
+            console.log('move to', next_index, pos)
             
             _setURLHash(sectionIndex[next_index]);
             _transformPage(el5, settings, pos, next_index, next);
