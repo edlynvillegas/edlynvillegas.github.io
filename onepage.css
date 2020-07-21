@@ -1,17 +1,8 @@
-body, html {
-    margin: 0;
-    overflow: hidden;
-    -webkit-transition: opacity 400ms;
-    -moz-transition: opacity 400ms;
-    transition: opacity 400ms;
-  }
-  
-  body, .onepage-wrapper, html {
-    display: block;
-    position: static;
-    padding: 0;
-    height: 100%;
-  }
+.onepage-wrapper {
+  display: block;
+  padding: 0;
+  height: 100%;
+}
   
   .onepage-pagination {
     position: absolute;

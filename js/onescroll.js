@@ -85,6 +85,7 @@ function onePageScroll(element, options) {
       
         _paginationHandler = function() {
             var page_index = this.dataset.link;
+            // moveDown(el)
             moveTo(el, page_index);
         }
         
@@ -281,8 +282,8 @@ function onePageScroll(element, options) {
       if (typeof settings.beforeMove == 'function') settings.beforeMove(index, next_el);
       
       var transformCSS = "-webkit-transform: translate3d(0, " + pos + "%, 0); -webkit-transition: -webkit-transform " + settings.animationTime + "ms " + settings.easing + "; -moz-transform: translate3d(0, " + pos + "%, 0); -moz-transition: -moz-transform " + settings.animationTime + "ms " + settings.easing + "; -ms-transform: translate3d(0, " + pos + "%, 0); -ms-transition: -ms-transform " + settings.animationTime + "ms " + settings.easing + "; transform: translate3d(0, " + pos + "%, 0); transition: transform " + settings.animationTime + "ms " + settings.easing + ";";
-      
-      el.style.cssText = transformCSS;
+      var el = document.querySelector(element)
+      el.setAttribute("style", transformCSS);
       
       var transitionEnd = _whichTransitionEvent();
        el.addEventListener(transitionEnd, endAnimation, { passive: false });
@@ -439,21 +440,17 @@ function onePageScroll(element, options) {
       
         var current = _getSectionEl(activeIndex),
             next_index = parseInt(page_index),
-            next = _getSectionEl(next_index);
-              
-        if(next) {
-            _removeClass(current, "active");
-            _addClass(next, "active");
-            
-            _removeClass(_getPaginationEl(activeIndex), "active");
-            _addClass(_getPaginationEl(next_index), "active");
+            next = _getSectionEl(next_index),
+            pos = (next_index * 100) * -1;
 
-            pos = ((next_index) * 100) * -1;
-            console.log('move to', next_index, pos)
-            
-            _setURLHash(sectionIndex[next_index]);
-            _transformPage(el5, settings, pos, next_index, next);
-        }
+        _removeClass(current, "active");
+        _addClass(next, "active");
+        
+        _removeClass(_getPaginationEl(activeIndex), "active");
+        _addClass(_getPaginationEl(next_index), "active");
+        
+        _setURLHash(sectionIndex[next_index]);
+        _transformPage(el5, settings, pos, next_index, next);
     }
       
     this.init();
