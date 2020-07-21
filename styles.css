@@ -445,11 +445,11 @@ main {
         margin-bottom: 80px;
     }
     .section-content > .section-title {
-        font-size: 65px;
+        font-size: 55px;
         margin: 0 0 15px 0;
     }
     .section-content > .section-title > span.title-shadow {
-        top: 100%;
+        top: 0;
         left: 0;
         transform: translate(-50%, 50%) rotate(-90deg);
         font-size: 200px;
@@ -513,5 +513,16 @@ main {
     }
     .sm-hide {
         display: none !important;
+    }
+}
+/* > 375 */
+@media only screen and (max-width: 376px) {
+    .section-content > .section-title {
+        font-size: 45px;
+        margin: 0 0 10px 0;
+    }
+
+    .section-container#about .about-container {
+        margin: 2em 0 0;
     }
 }
