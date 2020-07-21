@@ -1,5 +1,6 @@
 .onepage-wrapper {
   display: block;
+  position: static;
   padding: 0;
   height: 100%;
 }
