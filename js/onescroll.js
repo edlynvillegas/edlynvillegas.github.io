@@ -283,7 +283,7 @@ function onePageScroll(element, options) {
       
       var transformCSS = "-webkit-transform: translate3d(0, " + pos + "%, 0); -webkit-transition: -webkit-transform " + settings.animationTime + "ms " + settings.easing + "; -moz-transform: translate3d(0, " + pos + "%, 0); -moz-transition: -moz-transform " + settings.animationTime + "ms " + settings.easing + "; -ms-transform: translate3d(0, " + pos + "%, 0); -ms-transition: -ms-transform " + settings.animationTime + "ms " + settings.easing + "; transform: translate3d(0, " + pos + "%, 0); transition: transform " + settings.animationTime + "ms " + settings.easing + ";";
       var el = document.querySelector(element)
-      el.setAttribute("style", transformCSS);
+      el.style.cssText = transformCSS;
       
       var transitionEnd = _whichTransitionEvent();
        el.addEventListener(transitionEnd, endAnimation, { passive: false });
