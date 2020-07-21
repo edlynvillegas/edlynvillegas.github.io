@@ -411,7 +411,7 @@ function onePageScroll(element, options) {
         if(!next) {
             if (settings.loop == true) {
                 pos = ((sections.length - 1) * 100) * -1;
-                next_index = 2;
+                next_index = sections.length - 1;
                 next = _getSectionEl(next_index);
             } else { return }
         } else {
