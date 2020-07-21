@@ -211,7 +211,7 @@ main {
 }
 .section-container#about .about-container > .image > figure {
     width: 60%;
-    margin: 0 auto;
+    margin: 0 auto 1em;
     padding: 10px 10px 50px;
     background-color: rgb(23, 42, 69);
     box-shadow: rgba(2, 12, 27, 0.7) 0px 10px 30px -15px;
@@ -478,7 +478,7 @@ main {
     /* ABOUT */
     .section-container#about .about-container {
         flex-direction: column;
-        margin: 0;
+        margin: 3em 0 0;
     }
     .section-container#about .about-container > .image {
         width: 100%;
@@ -492,8 +492,11 @@ main {
         font-size: 14px;
     }
     .section-container#about .about-container > .info > table {
-        margin-top: 0;
-    }    
+        margin-top: 5px;
+    }
+    .section-container#about .about-container > .info > table tr > td {
+        font-size: 12px;
+    }
     .section-container#about .about-container > .image > figure {
         width: 40%;
         margin: 0 auto 10px;
