@@ -330,7 +330,7 @@ main {
         height: 180px;
     }
 }
-/* sm */
+/* md */
 @media only screen and (max-width: 768px) {
     /* WORKS */
     .section-container#works .project-container > .project-content {
