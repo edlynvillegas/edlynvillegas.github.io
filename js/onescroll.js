@@ -13,36 +13,36 @@
  * License: GPL v3
  *
  * ========================================================== */
-export function onePageScroll(element, options) {
-  console.log('Hello!', this)
+	
+function onePageScroll(element, options) {
   
     var defaults = {
-        sectionContainer: "section",
-        easing: "ease",
-        animationTime: 1000,
-        pagination: true,
-        updateURL: false,
-        keyboard: true,
-        beforeMove: null,
-        afterMove: null,
-        loop: false,
-        responsiveFallback: false
-    },
-    _root = this,
-    settings = Object.extend({}, defaults, options),
-    el = document.querySelector(element),
-    sections = document.querySelectorAll(settings.sectionContainer),
-    sectionIndex = [],
-    total = sections.length,
-    activeIndex = 0,
-    status = "off",
-    topPos = 0,
-    lastAnimation = 0,
-    quietPeriod = 500,
-    paginationList = "",
-    body = document.querySelector("body");
-
-    _root.init = function() { 
+              sectionContainer: "section",
+              easing: "ease",
+              animationTime: 1000,
+              pagination: true,
+              updateURL: false,
+              keyboard: true,
+              beforeMove: null,
+              afterMove: null,
+              loop: false,
+              responsiveFallback: false
+          },
+          _root = this,
+          settings = Object.extend({}, defaults, options),
+          el = document.querySelector(element),
+          sections = document.querySelectorAll(settings.sectionContainer),
+          sectionIndex = [],
+          total = sections.length,
+          activeIndex = 0;
+          status = "off",
+          topPos = 0,
+          lastAnimation = 0,
+          quietPeriod = 500,
+          paginationList = "",
+          body = document.querySelector("body");
+    
+    this.init = function() { 
         /*-------------------------------------------*/
         /*  Prepare Everything                       */
         /*-------------------------------------------*/
@@ -56,11 +56,11 @@ export function onePageScroll(element, options) {
         _swipeEvents(el);
         document.addEventListener("swipeDown",  function(event){
           if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
-            _root.moveUp(el);
+            moveUp(el);
         }, { passive: false });
         document.addEventListener("swipeUp", function(event){
             if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
-            _root.moveDown(el);
+            moveDown(el);
         }, { passive: false });
         
         if (hash && _getSectionIndex(hash.replace("#", "")) >= 0) {
@@ -83,18 +83,18 @@ export function onePageScroll(element, options) {
             _addClass(_getPaginationEl(0), "active");
         }
       
-        const _paginationHandler = function() {
+        _paginationHandler = function() {
             var page_index = this.dataset.link;
-            _root.moveTo(el, page_index);
+            // moveDown(el)
+            moveTo(el, page_index);
         }
         
         var pagination_links = document.querySelectorAll("[data-link]");
           for( var i = 0; i < pagination_links.length; i++){
-            console.log()
             pagination_links[i].addEventListener('click', _paginationHandler, { passive: false });
         }
       
-        const _mouseWheelHandler = function(event) {
+        _mouseWheelHandler = function(event) {
             event.preventDefault();
             var delta = event.wheelDelta || -event.detail;
             if (!_hasClass(body, "disabled-onepage-scroll")) _init_scroll(event, delta);
@@ -112,16 +112,16 @@ export function onePageScroll(element, options) {
             _responsive();
         }
       
-        const _keydownHandler = function(e) {
+      _keydownHandler = function(e) {
             var tag = e.target.tagName.toLowerCase();
       
             if (!_hasClass(body, "disabled-onepage-scroll")) {
                 switch(e.which) {
                     case 38:
-                        if (tag != 'input' && tag != 'textarea') _root.moveUp(el)
+                        if (tag != 'input' && tag != 'textarea') moveUp(el)
                         break;
                     case 40:
-                        if (tag != 'input' && tag != 'textarea') _root.moveDown(el)
+                        if (tag != 'input' && tag != 'textarea') moveDown(el)
                         break;
                     default: return;
                 }
@@ -141,7 +141,7 @@ export function onePageScroll(element, options) {
     /*------------------------------------------------*/
     /*  Credit: Eike Send for the awesome swipe event */
     /*------------------------------------------------*/
-    const _swipeEvents = function(el){
+    _swipeEvents = function(el){
         var startX,
             startY;
     
@@ -191,42 +191,42 @@ export function onePageScroll(element, options) {
       /*  Utility to add/remove class easily with javascript       */
       /*-----------------------------------------------------------*/
   
-      const _trim = function(str) {
+    _trim = function(str) {
         return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
     }
 
-    const _getSectionEl = function(sec) {
+    _getSectionEl = function(sec) {
         if (typeof sec === 'number') {
             sec = sectionIndex[sec]
         }
         return document.querySelector(settings.sectionContainer + "[data-section='" + sec + "']")
     }
 
-    const _getPaginationEl = function(index) {
+    _getPaginationEl = function(index) {
         return document.querySelector("[data-link='" + index + "']")
     }
 
-    const _getSectionIndex = function(hash) {
+    _getSectionIndex = function(hash) {
         return sectionIndex.map(function (obj) { return obj }).indexOf(hash)
     }
 
-    const _setURLHash = function(hash) {
+    _setURLHash = function(hash) {
         if (history.replaceState && settings.updateURL == true) {
             var href = window.location.href.substr(0,window.location.href.indexOf('#')) + "#" + hash;
             history.pushState( {}, document.title, href );
         }
     }
   
-    const _hasClass = function(ele,cls) {
+    _hasClass = function(ele,cls) {
         return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
     }
   
-    const _addClass = function(ele,cls) {
+    _addClass = function(ele,cls) {
       if (!_hasClass(ele,cls)) ele.className += " "+cls;
       ele.className = _trim(ele.className)
     }
   
-    const _removeClass = function(ele,cls) {
+    _removeClass = function(ele,cls) {
       if (_hasClass(ele,cls)) {
           var reg = new RegExp('(\\s|^)'+cls+'(\\s|$)');
           ele.className=ele.className.replace(reg,' ');
@@ -238,7 +238,7 @@ export function onePageScroll(element, options) {
       /*  Transtionend Normalizer by Modernizr                     */
       /*-----------------------------------------------------------*/
   
-      const _whichTransitionEvent = function(){
+    _whichTransitionEvent = function(){
       var t;
       var el = document.createElement('fakeelement');
       var transitions = {
@@ -259,7 +259,7 @@ export function onePageScroll(element, options) {
       /*  Function to perform scroll to top animation              */
       /*-----------------------------------------------------------*/
   
-      const _scrollTo = function(element, to, duration) {
+    _scrollTo = function(element, to, duration) {
         console.log('scroll to')
       if (duration < 0) return;
       var difference = to - element.scrollTop;
@@ -278,7 +278,7 @@ export function onePageScroll(element, options) {
     /*  Function to transform the page */
     /*---------------------------------*/
     
-    const _transformPage = function(el2, settings, pos, index, next_el) {
+    _transformPage = function(el2, settings, pos, index, next_el) {
       if (typeof settings.beforeMove == 'function') settings.beforeMove(index, next_el);
       
       var transformCSS = "-webkit-transform: translate3d(0, " + pos + "%, 0); -webkit-transition: -webkit-transform " + settings.animationTime + "ms " + settings.easing + "; -moz-transform: translate3d(0, " + pos + "%, 0); -moz-transition: -moz-transform " + settings.animationTime + "ms " + settings.easing + "; -ms-transform: translate3d(0, " + pos + "%, 0); -ms-transition: -ms-transform " + settings.animationTime + "ms " + settings.easing + "; transform: translate3d(0, " + pos + "%, 0); transition: transform " + settings.animationTime + "ms " + settings.easing + ";";
@@ -298,7 +298,7 @@ export function onePageScroll(element, options) {
     /*  Responsive Fallback trigger              */
     /*-------------------------------------------*/
     
-    const _responsive = function() {
+    _responsive = function() {
   
           if (document.body.clientWidth < settings.responsiveFallback) {
               _addClass(body, "disabled-onepage-scroll");
@@ -320,11 +320,11 @@ export function onePageScroll(element, options) {
               _swipeEvents(el);
               document.addEventListener("swipeDown",  function(event){
                 if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
-                _root.moveUp(el);
+                  moveUp(el);
               }, { passive: false });
               document.addEventListener("swipeUp", function(event){
                   if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
-                  _root.moveDown(el);
+                  moveDown(el);
               }, { passive: false });
         
             document.addEventListener('mousewheel', _mouseWheelHandler, { passive: false });
@@ -337,7 +337,7 @@ export function onePageScroll(element, options) {
     /*  Initialize scroll detection              */
     /*-------------------------------------------*/
     
-    const _init_scroll = function(event, delta) {
+    _init_scroll = function(event, delta) {
           var deltaOfInterest = delta,
               timeNow = new Date().getTime();
               
@@ -348,9 +348,9 @@ export function onePageScroll(element, options) {
           }
   
           if (deltaOfInterest < 0) {
-            _root.moveDown(el)
+              moveDown(el)
           } else {
-            _root.moveUp(el)
+              moveUp(el)
           }
           
           lastAnimation = timeNow;
@@ -367,7 +367,7 @@ export function onePageScroll(element, options) {
     
     this.moveDown = function(el3) {
         if (typeof el3 == "string") el3 = document.querySelector(el3);
-        var pos = 0, curr = document.querySelector(settings.sectionContainer +".active").dataset.section;
+        var curr = document.querySelector(settings.sectionContainer +".active").dataset.section;
         activeIndex = _getSectionIndex(curr)
       
         var current = _getSectionEl(activeIndex),
@@ -399,9 +399,9 @@ export function onePageScroll(element, options) {
     /*  Function to move up section    */
     /*---------------------------------*/
       
-    this.moveUp = function(el4) {
+      this.moveUp = function(el4) {
         if (typeof el4 == "string") el4 = document.querySelector(el4);
-        var pos = 0, curr = document.querySelector(settings.sectionContainer +".active").dataset.section;
+        var curr = document.querySelector(settings.sectionContainer +".active").dataset.section;
         activeIndex = _getSectionIndex(curr)
       
         var current = _getSectionEl(activeIndex),
@@ -435,7 +435,7 @@ export function onePageScroll(element, options) {
     
     this.moveTo = function(el5, page_index) {
         if (typeof el5 == "string") el5 = document.querySelector(el5);
-        var pos = 0, curr = document.querySelector(settings.sectionContainer +".active").dataset.section;
+        var curr = document.querySelector(settings.sectionContainer +".active").dataset.section;
         activeIndex = _getSectionIndex(curr)
       
         var current = _getSectionEl(activeIndex),
@@ -453,7 +453,7 @@ export function onePageScroll(element, options) {
         _transformPage(el5, settings, pos, next_index, next);
     }
       
-    // this.init();
+    this.init();
   }
   
   /*------------------------------------------------*/
@@ -464,31 +464,30 @@ export function onePageScroll(element, options) {
    /*  Function by John Resig to replicate extend functionality */
    /*-----------------------------------------------------------*/
    
-Object.extend = function(orig){
-  if ( orig == null )
-    return orig;
-
-  for ( var i = 1; i < arguments.length; i++ ) {
-    var obj = arguments[i];
-    if ( obj != null ) {
-      for ( var prop in obj ) {
-        var getter = obj.__lookupGetter__( prop ),
-            setter = obj.__lookupSetter__( prop );
-
-        if ( getter || setter ) {
-          if ( getter )
-            orig.__defineGetter__( prop, getter );
-          if ( setter )
-            orig.__defineSetter__( prop, setter );
-        } else {
-          orig[ prop ] = obj[ prop ];
-        }
-      }
-    }
-  }
-
-  return orig;
-};
-
-// export default onePageScroll;
-// module.exports = onePageScroll;
+   Object.extend = function(orig){
+     if ( orig == null )
+       return orig;
+   
+     for ( var i = 1; i < arguments.length; i++ ) {
+       var obj = arguments[i];
+       if ( obj != null ) {
+         for ( var prop in obj ) {
+           var getter = obj.__lookupGetter__( prop ),
+               setter = obj.__lookupSetter__( prop );
+   
+           if ( getter || setter ) {
+             if ( getter )
+               orig.__defineGetter__( prop, getter );
+             if ( setter )
+               orig.__defineSetter__( prop, setter );
+           } else {
+             orig[ prop ] = obj[ prop ];
+           }
+         }
+       }
+     }
+   
+     return orig;
+   };
+      
+  
