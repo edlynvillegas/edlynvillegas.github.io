@@ -277,10 +277,19 @@ export function onePageScroll(element, options) {
     /*  Function to transform the page */
     /*---------------------------------*/
     
-    const _transformPage = function(el2, settings, pos, index, next_el) {
+    const _transformPage = function(el, settings, pos, index, next_el) {
       if (typeof settings.beforeMove == 'function') settings.beforeMove(index, next_el);
       
-      var transformCSS = "-webkit-transform: translate3d(0, " + pos + "px, 0); -webkit-transition: -webkit-transform " + settings.animationTime + "ms " + settings.easing + "; -moz-transform: translate3d(0, " + pos + "px, 0); -moz-transition: -moz-transform " + settings.animationTime + "ms " + settings.easing + "; -ms-transform: translate3d(0, " + pos + "px, 0); -ms-transition: -ms-transform " + settings.animationTime + "ms " + settings.easing + "; transform: translate3d(0, " + pos + "px, 0); transition: transform " + settings.animationTime + "ms " + settings.easing + ";";
+      var transformCSS = `
+        -webkit-transform: translate3d(0, ${pos}px, 0);
+        -webkit-transition: -webkit-transform ${settings.animationTime}ms ${settings.easing};
+        -moz-transform: translate3d(0, ${pos}px, 0);
+        -moz-transition: -moz-transform ${settings.animationTime}ms ${settings.easing};
+        -ms-transform: translate3d(0, ${pos}px, 0);
+        -ms-transition: -ms-transform ${settings.animationTime}ms ${settings.easing};
+        transform: translate3d(0, ${pos}px, 0);
+        transition: transform ${settings.animationTime}ms ${settings.easing} + ";
+      `
       var el = document.querySelector(element)
       el.style.cssText = transformCSS;
       
@@ -290,6 +299,7 @@ export function onePageScroll(element, options) {
       function endAnimation() {
         if (typeof settings.afterMove == 'function') settings.afterMove(index, next_el);
         el.removeEventListener(transitionEnd, endAnimation)
+        alert('POS ' + pos)
       }
     }
     
