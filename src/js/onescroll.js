@@ -281,14 +281,14 @@ export function onePageScroll(element, options) {
       if (typeof settings.beforeMove == 'function') settings.beforeMove(index, next_el);
       
       var transformCSS = `
-        -webkit-transform: translate3d(0, ${pos}px, 0);
+        -webkit-transform: translateY(${pos}px);
         -webkit-transition: -webkit-transform ${settings.animationTime}ms ${settings.easing};
-        -moz-transform: translate3d(0, ${pos}px, 0);
+        -moz-transform: translateY(${pos}px);
         -moz-transition: -moz-transform ${settings.animationTime}ms ${settings.easing};
-        -ms-transform: translate3d(0, ${pos}px, 0);
+        -ms-transform: translateY(${pos}px);
         -ms-transition: -ms-transform ${settings.animationTime}ms ${settings.easing};
-        transform: translate3d(0, ${pos}px, 0);
-        transition: transform ${settings.animationTime}ms ${settings.easing} + ";
+        transform: translateY(${pos}px);
+        transition: transform ${settings.animationTime}ms ${settings.easing};
       `
       var el = document.querySelector(element)
       el.style.cssText = transformCSS;
