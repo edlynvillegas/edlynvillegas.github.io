@@ -14,7 +14,7 @@
  *
  * ========================================================== */
 export function onePageScroll(element, options) {
-  console.log('Hello!', this)
+  // console.log('Hello!', this)
   
     var defaults = {
         sectionContainer: "section",
@@ -65,7 +65,7 @@ export function onePageScroll(element, options) {
         }, { passive: false });
         
         if (hash && _getSectionIndex(hash.replace("#", "")) >= 0) {
-            console.log('hereee', hash)
+            // console.log('hereee', hash)
             activeIndex = sectionIndex.map(function (obj) { return obj }).indexOf(hash.replace("#", ""))
             var pos, current = _getSectionEl(sectionIndex[activeIndex])
             // console.log(current)
@@ -75,10 +75,9 @@ export function onePageScroll(element, options) {
 
             _setURLHash(sectionIndex[activeIndex])
 
-            pos = (activeIndex * 100) * -1;
-            _transformPage(el, settings, pos, activeIndex);
+            _root.moveTo(el, activeIndex);
         } else {
-            console.log('thereee', hash)
+            // console.log('thereee', hash)
             _setURLHash('intro');
             _addClass(_getSectionEl('intro'), "active");
             _addClass(_getPaginationEl(0), "active");
@@ -91,7 +90,6 @@ export function onePageScroll(element, options) {
         
         var pagination_links = document.querySelectorAll("[data-link]");
           for( var i = 0; i < pagination_links.length; i++){
-            console.log()
             pagination_links[i].addEventListener('click', _paginationHandler, { passive: false });
         }
       
@@ -261,7 +259,7 @@ export function onePageScroll(element, options) {
       /*-----------------------------------------------------------*/
   
       const _scrollTo = function(element, to, duration) {
-        console.log('scroll to')
+        // console.log('scroll to')
       if (duration < 0) return;
       var difference = to - element.scrollTop;
       var perTick = difference / duration * 10;
@@ -300,38 +298,39 @@ export function onePageScroll(element, options) {
     /*-------------------------------------------*/
     
     const _responsive = function() {
-  
-          if (document.body.clientWidth < settings.responsiveFallback) {
-              _addClass(body, "disabled-onepage-scroll");
-              document.removeEventListener('mousewheel', _mouseWheelHandler);
-              document.removeEventListener('DOMMouseScroll', _mouseWheelHandler);
-              _swipeEvents(el);
-              document.removeEventListener("swipeDown");
-              document.removeEventListener("swipeUp");
+      hh = body.clientHeight;
+      _root.moveTo(el, activeIndex);
+          // if (document.body.clientWidth < settings.responsiveFallback) {
+          //     _addClass(body, "disabled-onepage-scroll");
+          //     document.removeEventListener('mousewheel', _mouseWheelHandler);
+          //     document.removeEventListener('DOMMouseScroll', _mouseWheelHandler);
+          //     _swipeEvents(el);
+          //     document.removeEventListener("swipeDown");
+          //     document.removeEventListener("swipeUp");
               
-          } else {
+          // } else {
             
-            if (_hasClass(body, "disabled-onepage-scroll")) {
-              _removeClass(body, "disabled-onepage-scroll");
-              _scrollTo(document.documentElement, 0, 2000);
-          }
+          //   if (_hasClass(body, "disabled-onepage-scroll")) {
+          //     _removeClass(body, "disabled-onepage-scroll");
+          //     _scrollTo(document.documentElement, 0, 2000);
+          // }
         
         
   
-              _swipeEvents(el);
-              document.addEventListener("swipeDown",  function(event){
-                if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
-                _root.moveUp(el);
-              }, { passive: false });
-              document.addEventListener("swipeUp", function(event){
-                  if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
-                  _root.moveDown(el);
-              }, { passive: false });
+              // _swipeEvents(el);
+              // document.addEventListener("swipeDown",  function(event){
+              //   if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
+              //   _root.moveUp(el);
+              // }, { passive: false });
+              // document.addEventListener("swipeUp", function(event){
+              //     if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
+              //     _root.moveDown(el);
+              // }, { passive: false });
         
-            document.addEventListener('mousewheel', _mouseWheelHandler, { passive: false });
-            document.addEventListener('DOMMouseScroll', _mouseWheelHandler, { passive: false });
+            // document.addEventListener('mousewheel', _mouseWheelHandler, { passive: false });
+            // document.addEventListener('DOMMouseScroll', _mouseWheelHandler, { passive: false });
               
-          }
+          // }
       }
       
       /*-------------------------------------------*/
@@ -383,7 +382,7 @@ export function onePageScroll(element, options) {
             } else { return }
         } else {
             pos = (hh * (activeIndex+1)) * -1;
-            console.log('posdown', pos, activeIndex)
+            // console.log('posdown', pos, activeIndex)
         }
 
         _removeClass(current, "active");
@@ -417,7 +416,7 @@ export function onePageScroll(element, options) {
             } else { return }
         } else {
             pos = (hh * (activeIndex-1)) * -1;
-            console.log('posup', pos, activeIndex)
+            // console.log('posup', pos, activeIndex)
         }
 
         _removeClass(current, "active");
@@ -435,6 +434,7 @@ export function onePageScroll(element, options) {
     /*-------------------------------------------*/
     
     this.moveTo = function(el5, page_index) {
+      // console.log(page_index)
         if (typeof el5 == "string") el5 = document.querySelector(el5);
         var pos = 0, curr = document.querySelector(settings.sectionContainer +".active").dataset.section;
         activeIndex = _getSectionIndex(curr)

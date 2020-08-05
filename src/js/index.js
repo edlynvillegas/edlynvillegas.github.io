@@ -45,6 +45,7 @@ var slider = document.querySelector('.project-slider'),
 var figure, imageSlider, images, imageCont, stacks, githubURL, demoURL;
 var typedTitle, typedDesc;
 var isMobile, isTablet, isDesktop;
+console.log('Hire me please..')
 
 const opt = {
     sectionContainer: "section",
@@ -54,7 +55,7 @@ const opt = {
     updateURL: true,
     loop: true,
     keyboard: true,
-    responsiveFallback: false,
+    responsiveFallback: true,
     beforeMove: function(index, next_el) {
         activePage = index;
     }
