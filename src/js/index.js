@@ -167,10 +167,8 @@ const renderNavs = () => {
     }
     for (var i=0; i < projects.length; i++) {
         if (isDesktop) {
-            console.log('render isdesktop!!', isDesktop)
             navigation.insertAdjacentHTML('beforeend', `<button data-project="${i+1}">${ projects[i].title }</button>`)
         } else {
-            console.log('render mob...', isDesktop)
             navigation.insertAdjacentHTML('beforeend', `<button data-project="${i+1}">${ i+1 }</button>`)
         }
     }
@@ -193,10 +191,8 @@ const init = () => {
     stacks = document.querySelector('.project-stack');
     githubURL = document.querySelector('ul.project-link > li#github > a');
     demoURL = document.querySelector('ul.project-link > li#demo > a');
-    console.log('RENDERED!')
     renderNavs();
     projectLoop();
-    console.log('init')
 }
 const projectLoop = () => {
     loopEnd();
@@ -211,7 +207,6 @@ const projectLoop = () => {
         loop = 0;
         loopFunc();
     }
-    // console.log('LOOP!!!', loop)
 }
 const loopEnd = () => {
     if (looper) clearTimeout(looper);
@@ -264,7 +259,6 @@ const setImagePos = () => {
         h =  images[activeProject-1].offsetHeight;
         hY = h * (activeProject - 1);
         figure.style.height = h + 'px';
-        console.log(h, hY)
         imageSlider.style.transform = `translateY(-${hY}px)`;
     }, 0);
 }
@@ -312,7 +306,6 @@ const selectProject = (num) => {
 }
 const deviceResized = () => {
     var w = window.innerWidth;
-    console.log('RESIZED!', window.innerWidth)
     if (w > 768) {
         isDesktop = true;
         isTablet = false;
@@ -327,7 +320,6 @@ const deviceResized = () => {
         isMobile = true;
     }
     renderImage();
-    console.log('isDesktop?', isDesktop)
 }
 deviceResized();
 
@@ -335,15 +327,26 @@ window.addEventListener('resize', () => {
     deviceResized();
     reinit();
 })
-
-if (document.readyState === 'loading') {
+document.addEventListener('DOMContentLoaded', () => {
     ops.init()
-    document.addEventListener('DOMContentLoaded', init)
+    init()
     var loader = document.querySelector('.loader');
     setTimeout(() => {
         loader.remove();
     }, 500);
-} else {
-    init();
-}
+})
+
+// document.onload = () => {
+//     ops.init()
+//     init()
+//     var loader = document.querySelector('.loader');
+//     setTimeout(() => {
+//         loader.remove();
+//     }, 500);
+// }
+
+// if (document.readyState === 'loading') {
+// } else {
+//     init();
+// }
 // setTimeout(() => init(), 0);
