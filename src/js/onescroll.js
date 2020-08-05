@@ -40,7 +40,8 @@ export function onePageScroll(element, options) {
     lastAnimation = 0,
     quietPeriod = 500,
     paginationList = "",
-    body = document.querySelector("body");
+    body = document.querySelector("body"),
+    hh = body.clientHeight;
 
     _root.init = function() { 
         /*-------------------------------------------*/
@@ -281,7 +282,7 @@ export function onePageScroll(element, options) {
     const _transformPage = function(el2, settings, pos, index, next_el) {
       if (typeof settings.beforeMove == 'function') settings.beforeMove(index, next_el);
       
-      var transformCSS = "-webkit-transform: translate3d(0, " + pos + "%, 0); -webkit-transition: -webkit-transform " + settings.animationTime + "ms " + settings.easing + "; -moz-transform: translate3d(0, " + pos + "%, 0); -moz-transition: -moz-transform " + settings.animationTime + "ms " + settings.easing + "; -ms-transform: translate3d(0, " + pos + "%, 0); -ms-transition: -ms-transform " + settings.animationTime + "ms " + settings.easing + "; transform: translate3d(0, " + pos + "%, 0); transition: transform " + settings.animationTime + "ms " + settings.easing + ";";
+      var transformCSS = "-webkit-transform: translate3d(0, " + pos + "px, 0); -webkit-transition: -webkit-transform " + settings.animationTime + "ms " + settings.easing + "; -moz-transform: translate3d(0, " + pos + "px, 0); -moz-transition: -moz-transform " + settings.animationTime + "ms " + settings.easing + "; -ms-transform: translate3d(0, " + pos + "px, 0); -ms-transition: -ms-transform " + settings.animationTime + "ms " + settings.easing + "; transform: translate3d(0, " + pos + "px, 0); transition: transform " + settings.animationTime + "ms " + settings.easing + ";";
       var el = document.querySelector(element)
       el.style.cssText = transformCSS;
       
@@ -381,8 +382,8 @@ export function onePageScroll(element, options) {
                 next = _getSectionEl(next_index);
             } else { return }
         } else {
-            pos = ((activeIndex+1) * 100) * -1;
-            console.log('pos', pos, activeIndex)
+            pos = (hh * (activeIndex+1)) * -1;
+            console.log('posdown', pos, activeIndex)
         }
 
         _removeClass(current, "active");
@@ -410,13 +411,13 @@ export function onePageScroll(element, options) {
               
         if(!next) {
             if (settings.loop == true) {
-                pos = ((sections.length - 1) * 100) * -1;
+                pos = (hh * (sections.length-1)) * -1;
                 next_index = sections.length - 1;
                 next = _getSectionEl(next_index);
             } else { return }
         } else {
-            pos = ((activeIndex-1) * 100) * -1;
-            console.log('pos', pos, activeIndex)
+            pos = (hh * (activeIndex-1)) * -1;
+            console.log('posup', pos, activeIndex)
         }
 
         _removeClass(current, "active");
@@ -441,7 +442,7 @@ export function onePageScroll(element, options) {
         var current = _getSectionEl(activeIndex),
             next_index = parseInt(page_index),
             next = _getSectionEl(next_index),
-            pos = (next_index * 100) * -1;
+            pos = (hh * next_index) * -1;
 
         _removeClass(current, "active");
         _addClass(next, "active");
