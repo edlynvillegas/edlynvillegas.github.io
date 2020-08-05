@@ -299,7 +299,7 @@ export function onePageScroll(element, options) {
       function endAnimation() {
         if (typeof settings.afterMove == 'function') settings.afterMove(index, next_el);
         el.removeEventListener(transitionEnd, endAnimation)
-        alert('POS ' + pos + ' | HEIGHT: ' + hh)
+        // alert('POS ' + pos + ' | HEIGHT: ' + hh)
       }
     }
     
