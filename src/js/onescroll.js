@@ -291,7 +291,7 @@ export function onePageScroll(element, options) {
         transition: transform ${settings.animationTime}ms ${settings.easing};
       `
       var el = document.querySelector(element)
-      el.style.cssText = transformCSS;
+      el.setAttribute('style', transformCSS);
       
       var transitionEnd = _whichTransitionEvent();
        el.addEventListener(transitionEnd, endAnimation, { passive: false });
