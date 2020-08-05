@@ -32,6 +32,19 @@ a {
     text-decoration: none;
 }
 
+.loader {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(4 16 33);
+    z-index: 999;
+}
+
 aside {
     position: fixed;
     top: 0;
@@ -39,7 +52,7 @@ aside {
     width: 80px;
     height: 100vh;
     background-color: rgb(4 16 33);
-    z-index: 999;
+    z-index: 998;
 }
 aside > nav {
     position: absolute;

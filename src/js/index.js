@@ -61,7 +61,6 @@ const opt = {
 }
 
 const ops = new onePageScroll("main", opt);
-ops.init()
 // var sliderParent = document.querySelector('.project-container')
 // var sliderChilds = document.querySelectorAll('.project-content')
 
@@ -197,6 +196,7 @@ const init = () => {
     console.log('RENDERED!')
     renderNavs();
     projectLoop();
+    console.log('init')
 }
 const projectLoop = () => {
     loopEnd();
@@ -337,7 +337,12 @@ window.addEventListener('resize', () => {
 })
 
 if (document.readyState === 'loading') {
+    ops.init()
     document.addEventListener('DOMContentLoaded', init)
+    var loader = document.querySelector('.loader');
+    setTimeout(() => {
+        loader.remove();
+    }, 500);
 } else {
     init();
 }
