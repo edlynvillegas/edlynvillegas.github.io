@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var loader = document.querySelector('.loader');
     setTimeout(() => {
         loader.remove();
-    }, 500);
+    }, 1500);
 })
 
 // document.onload = () => {
