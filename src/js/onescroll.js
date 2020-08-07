@@ -96,7 +96,7 @@ export function onePageScroll(element, options) {
         const _mouseWheelHandler = function(event) {
             event.preventDefault();
             var delta = event.wheelDelta || -event.detail;
-            if (!_hasClass(body, "disabled-onepage-scroll")) _init_scroll(event, delta);
+            _init_scroll(event, delta);
         }
       
         document.addEventListener('mousewheel', _mouseWheelHandler, { passive: false });
@@ -106,9 +106,8 @@ export function onePageScroll(element, options) {
         if(settings.responsiveFallback != false) {
           window.onresize = function(){
                 _responsive();
-            }
-      
-            _responsive();
+          }
+          _responsive();
         }
       
         const _keydownHandler = function(e) {
@@ -310,35 +309,26 @@ export function onePageScroll(element, options) {
     const _responsive = function() {
       hh = body.clientHeight;
       _root.moveTo(el, activeIndex);
-          // if (document.body.clientWidth < settings.responsiveFallback) {
-          //     _addClass(body, "disabled-onepage-scroll");
-          //     document.removeEventListener('mousewheel', _mouseWheelHandler);
-          //     document.removeEventListener('DOMMouseScroll', _mouseWheelHandler);
-          //     _swipeEvents(el);
-          //     document.removeEventListener("swipeDown");
-          //     document.removeEventListener("swipeUp");
-              
-          // } else {
-            
-          //   if (_hasClass(body, "disabled-onepage-scroll")) {
-          //     _removeClass(body, "disabled-onepage-scroll");
-          //     _scrollTo(document.documentElement, 0, 2000);
-          // }
         
         
+      const _mouseWheelHandler = function(event) {
+        event.preventDefault();
+        var delta = event.wheelDelta || -event.detail;
+        _init_scroll(event, delta);
+    }
   
-              // _swipeEvents(el);
-              // document.addEventListener("swipeDown",  function(event){
-              //   if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
-              //   _root.moveUp(el);
-              // }, { passive: false });
-              // document.addEventListener("swipeUp", function(event){
-              //     if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
-              //     _root.moveDown(el);
-              // }, { passive: false });
+              _swipeEvents(el);
+              document.addEventListener("swipeDown",  function(event){
+                if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
+                _root.moveUp(el);
+              }, { passive: false });
+              document.addEventListener("swipeUp", function(event){
+                  if (!_hasClass(body, "disabled-onepage-scroll")) event.preventDefault();
+                  _root.moveDown(el);
+              }, { passive: false });
         
-            // document.addEventListener('mousewheel', _mouseWheelHandler, { passive: false });
-            // document.addEventListener('DOMMouseScroll', _mouseWheelHandler, { passive: false });
+            document.addEventListener('mousewheel', _root._mouseWheelHandler, { passive: false });
+            document.addEventListener('DOMMouseScroll', _root._mouseWheelHandler, { passive: false });
               
           // }
       }
