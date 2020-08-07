@@ -139,9 +139,6 @@ main {
 
 
 /* INTRO */
-.section-container#intro {
-    height: 100vh;
-}
 .section-container#intro > .section-content {
     display: flex;
     align-items: start;
