@@ -41,9 +41,10 @@ export function onePageScroll(element, options) {
     quietPeriod = 500,
     paginationList = "",
     body = document.querySelector("body"),
-    hh = body.clientHeight;
+    hh = body.offsetHeight;
 
     _root.init = function() { 
+      console.log(body.clientHeight, body.offsetHeight)
         /*-------------------------------------------*/
         /*  Prepare Everything                       */
         /*-------------------------------------------*/
@@ -307,7 +308,7 @@ export function onePageScroll(element, options) {
     /*-------------------------------------------*/
     
     const _responsive = function() {
-      hh = body.clientHeight;
+      hh = body.offsetHeight;
       _root.moveTo(el, activeIndex);
         
         
