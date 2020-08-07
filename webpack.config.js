@@ -1,9 +1,17 @@
 const path = require('path');
+require('dotenv').config();
+const TerserJSPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
     entry: './src/js/index.js',
+    optimization: {
+      minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'js/bundle.js'
@@ -16,7 +24,13 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html', // name of html file to be created
             template: './src/index.html' // source from which html file would be created
-        })
+        }),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: devMode ? '[name].css' : '[name].[hash].css',
+            chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
+        }),
     ],
     module: {
         rules: [
@@ -29,7 +43,14 @@ module.exports = {
             },
             {
                 test: /\.css$/i,
-                use: ['style-loader', 'css-loader']
+                use: [{
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            hmr: process.env.NODE_ENV === 'development',
+                        },
+                    },
+                    'css-loader'
+                ]
             },
             {
                 test: /\.html$/i,
