@@ -15,13 +15,14 @@ html, body {
     display: block;
     margin: 0;
     padding: 0;
+    width: 100%;
     height: 100%;
     font-family: 'Roboto Slab', serif;
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; */
     overflow: hidden;
-    -webkit-transition: opacity 400ms;
+    /* -webkit-transition: opacity 400ms;
     -moz-transition: opacity 400ms;
-    transition: opacity 400ms;
+    transition: opacity 400ms; */
 }
 body {
     background-color: rgb(10, 25, 47);
@@ -99,6 +100,15 @@ main {
     position: relative;
     width: 100%;
     height: 100vh;
+}
+.section-container:nth-child(1) {
+    background-color: red;
+}
+.section-container:nth-child(2) {
+    background-color: blue;
+}
+.section-container:nth-child(3) {
+    background-color: green;
 }
 
 .section-content {
