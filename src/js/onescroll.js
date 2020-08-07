@@ -44,7 +44,6 @@ export function onePageScroll(element, options) {
     hh = body.offsetHeight;
 
     _root.init = function() { 
-      console.log(body.clientHeight, body.offsetHeight)
         /*-------------------------------------------*/
         /*  Prepare Everything                       */
         /*-------------------------------------------*/
