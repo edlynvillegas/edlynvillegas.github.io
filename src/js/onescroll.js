@@ -418,9 +418,7 @@ export function onePageScroll(element, options) {
       _removeClass(document.querySelector("nav a[data-link='" + index + "']"), "active");
       _addClass(document.querySelector("nav a[data-link='" + next_index + "']"), "active");
     }
-
-    body.className = body.className.replace(/\bviewing-page-\d.*?\b/g, '');
-    _addClass(body, "viewing-page-" + next_index);
+    
     _setURLHash(parseInt(index) + 1)
     _transformPage(el3, settings, pos, next_index, next);
   }
@@ -456,8 +454,7 @@ export function onePageScroll(element, options) {
       _removeClass(document.querySelector("nav a[data-link='" + index + "']"), "active");
       _addClass(document.querySelector("nav a[data-link='" + next_index + "']"), "active");
     }
-    body.className = body.className.replace(/\bviewing-page-\d.*?\b/g, '');
-    _addClass(body, "viewing-page-" + next_index);
+    
     _setURLHash(parseInt(index) - 1)
     _transformPage(el4, settings, pos, next_index, next);
   }
@@ -480,9 +477,6 @@ export function onePageScroll(element, options) {
       _addClass(next, "active");
       _removeClass(document.querySelector("nav a[data-link]" + ".active"), "active");
       _addClass(document.querySelector("nav a" + "[data-link='" + (page_index) + "']"), "active");
-
-      body.className = body.className.replace(/\bviewing-page-\d.*?\b/g, '');
-      _addClass(body, "viewing-page-" + next_index);
 
       pos = ((page_index - 1) * 100) * -1;
       _setURLHash(parseInt(page_index))
