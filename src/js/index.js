@@ -1,35 +1,3 @@
-// // alert('WAIT! This page is still under development so..')
-// window.onhashchange = getActive;
-// window.onscroll = function() {getSection()};
-// var hash, navs = document.querySelectorAll('nav > a');
-
-// if (window.location.hash) getActive();
-// function getActive() {
-//     hash = window.location.hash.split('#')[1];
-//     for (var i=0; i < navs.length; i++) {
-//         if (hash === navs[i].dataset.link) {
-//             setActive(navs[i].dataset.link)
-//         }
-//     }
-// }
-// function setActive(val) {
-//     for (var i=0; i < navs.length; i++) {
-//         navs[i].classList.remove('active')
-//         if (val === navs[i].dataset.link) {
-//             navs[i].classList.add('active')
-//         }
-//     }
-// }
-// function getSection(e) {
-//     var scr = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-//     var sections = document.querySelectorAll('section')
-//     for (var i=0; i < sections.length; i++) {
-//         if (scr >= sections[i].offsetTop - (sections[i].offsetHeight/2) && scr <= sections[i].offsetTop + sections[i].offsetHeight) {
-//             setActive(sections[i].dataset.section)
-//             // window.location.hash = '#'+sections[i].dataset.section;
-//         }
-//     }
-// }
 import '../css/styles.css';
 import '../css/onepage.css';
 import '../assets/img/me.jpg';
@@ -48,17 +16,6 @@ var isMobile, isTablet, isDesktop;
 console.log('Hire me please..')
 
 const opt = {
-    // sectionContainer: "section",
-    // easing: "ease",
-    // animationTime: 1000,
-    // pagination: false,
-    // updateURL: true,
-    // loop: true,
-    // keyboard: true,
-    // responsiveFallback: true,
-    // beforeMove: function(index, next_el) {
-    //     activePage = index;
-    // }
     sectionContainer: "section",
     easing: "ease",
     animationTime: 1000,
@@ -68,18 +25,8 @@ const opt = {
     keyboard: true,
     responsiveFallback: false
 }
-
 const ops = new onePageScroll("main", opt);
-// var sliderParent = document.querySelector('.project-container')
-// var sliderChilds = document.querySelectorAll('.project-content')
-
-// var wd = sliderParent.offsetWidth;
-// slider.style.width = wd * sliderChilds.length + 'px';
-// for (var i = 0; i < sliderChilds.length; i++) {
-//     sliderChilds[i].style.width = wd + 'px';
-// }
-// console.log(sliderChilds.length)
-var projects = [
+const projects = [
     {
         title: 'Evo Calendar',
         description: 'Simple modern-looking event calendar &mdash; Jquery plugin',
@@ -155,7 +102,6 @@ const renderStacks = () => {
     stacks.innerHTML = markup;
 }
 
-// for (var i=0; i < projects.length; i++) {
 renderProject(projects)
 const initListener = () => {
     document.querySelectorAll('[data-project]').forEach(el => el.addEventListener('click', e => {
@@ -338,7 +284,6 @@ window.addEventListener('resize', () => {
 })
 document.addEventListener('DOMContentLoaded', () => {
     ops.init()
-    console.log('DOMContentLoaded')
     init()
     var loader = document.querySelector('.loader');
     setTimeout(() => {

@@ -145,7 +145,8 @@ main {
     justify-content: center;
     flex-direction: column;
 }
-.section-container#intro > .section-content > p {
+.section-container#intro > .section-content > p,
+.section-container#intro > .section-content > a {
     font-family: monospace;
     font-size: 2.2em;
     margin: 0 0 10px;
@@ -165,7 +166,7 @@ main {
     color: rgb(136, 146, 176);
     margin: 0;
 }
-.section-container#intro > .section-content > p:last-of-type {
+.section-container#intro > .section-content > a {
     margin-top: 20px;
     width: 50%;
     font-size: 20px;
@@ -588,7 +589,7 @@ main {
         font-size: 1.6em;
         margin: 0 0 10px;
     }
-    .section-container#intro > .section-content > p:last-of-type {
+    .section-container#intro > .section-content > a {
         margin-top: 15px;
         width: 80%;
         font-size: 15px;
@@ -668,7 +669,7 @@ main {
     .section-container#intro > .section-content > h4 {
         font-size: 2.6em;
     }
-    .section-container#intro > .section-content > p:last-of-type {
+    .section-container#intro > .section-content > a {
         width: 70%;
         font-size: 12px;
     }
