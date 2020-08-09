@@ -453,32 +453,31 @@ export function onePageScroll(element, options) {
   this.moveUp = function (el4) {
 
     if (typeof el4 == "string") el4 = document.querySelector(el4);
+    var pos = 0, curr = document.querySelector(settings.sectionContainer +".active").dataset.section;
+    activeIndex = _getSectionIndex(curr)
+  
+    var current = _getSectionEl(activeIndex),
+        next_index = activeIndex - 1,
+        next = _getSectionEl(next_index);
 
-    var index = document.querySelector(settings.sectionContainer + ".active").dataset.index,
-      current = document.querySelector(settings.sectionContainer + "[data-index='" + index + "']"),
-      next = document.querySelector(settings.sectionContainer + "[data-index='" + (parseInt(index) - 1) + "']"),
-      pos;
-
-    if (!next) {
+    if(!next) {
       if (settings.loop == true) {
-        pos = ((total - 1) * 100) * -1;
-        next = document.querySelector(settings.sectionContainer + "[data-index='" + total + "']");
-      } else {
-        return
-      }
+          pos = ((sections.length - 1) * 100) * -1;
+          next_index = sections.length - 1;
+          next = _getSectionEl(next_index);
+      } else { return }
     } else {
-      pos = ((next.dataset.index - 1) * 100) * -1;
+        pos = ((activeIndex-1) * 100) * -1;
+        // console.log('posup', pos, activeIndex)
     }
-    var next_index = next.dataset.index;
-    _removeClass(current, "active")
-    _addClass(next, "active")
 
-    if (settings.pagination == true) {
-      _removeClass(document.querySelector("nav a[data-link='" + index + "']"), "active");
-      _addClass(document.querySelector("nav a[data-link='" + next_index + "']"), "active");
-    }
+    _removeClass(current, "active");
+    _addClass(next, "active");
     
-    _setURLHash(parseInt(index) - 1)
+    _removeClass(_getPaginationEl(activeIndex), "active");
+    _addClass(_getPaginationEl(next_index), "active");
+    
+    _setURLHash(sectionIndex[next_index]);
     _transformPage(el4, settings, pos, next_index, next);
   }
 
