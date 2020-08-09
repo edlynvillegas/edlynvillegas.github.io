@@ -85,7 +85,7 @@ aside > nav > a:hover > svg > path:last-child {
 }
 
 main {
-    width: calc(100% - 80px);
+    width: calc(100% - 80px) !important;
     margin-left: 80px;
     display: block;
     height: 100%;
