@@ -102,14 +102,6 @@ export function onePageScroll(element, options) {
         document.addEventListener('mousewheel', _mouseWheelHandler, { passive: false });
         document.addEventListener('DOMMouseScroll', _mouseWheelHandler, { passive: false });
       
-      
-        if(settings.responsiveFallback != false) {
-          window.onresize = function(){
-                _responsive();
-          }
-          _responsive();
-        }
-      
         const _keydownHandler = function(e) {
             var tag = e.target.tagName.toLowerCase();
       
