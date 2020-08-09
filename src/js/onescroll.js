@@ -316,20 +316,6 @@ export function onePageScroll(element, options) {
         var delta = event.wheelDelta || -event.detail;
         _init_scroll(event, delta);
       }
-
-      if (document.body.clientWidth < settings.responsiveFallback) {
-        _addClass(body, "disabled-onepage-scroll");
-        document.removeEventListener('mousewheel', _mouseWheelHandler);
-        document.removeEventListener('DOMMouseScroll', _mouseWheelHandler);
-        _swipeEvents(el);
-        document.removeEventListener("swipeDown");
-        document.removeEventListener("swipeUp");
-      } else {
-        if (_hasClass(body, "disabled-onepage-scroll")) {
-          _removeClass(body, "disabled-onepage-scroll");
-          _scrollTo(document.documentElement, 0, 2000);
-        }
-      }
   
       _swipeEvents(el);
       document.addEventListener("swipeDown",  function(event){
@@ -341,8 +327,8 @@ export function onePageScroll(element, options) {
           _root.moveDown(el);
       }, { passive: false });
 
-    document.addEventListener('mousewheel', _root._mouseWheelHandler, { passive: false });
-    document.addEventListener('DOMMouseScroll', _root._mouseWheelHandler, { passive: false });
+      document.addEventListener('mousewheel', _mouseWheelHandler, { passive: false });
+      document.addEventListener('DOMMouseScroll', _mouseWheelHandler, { passive: false });
               
           // }
     }
