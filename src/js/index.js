@@ -48,25 +48,25 @@ var isMobile, isTablet, isDesktop;
 console.log('Hire me please..')
 
 const opt = {
-    sectionContainer: "section",
-    easing: "ease",
-    animationTime: 1000,
-    pagination: false,
-    updateURL: true,
-    loop: true,
-    keyboard: true,
-    responsiveFallback: false,
-    beforeMove: function(index, next_el) {
-        activePage = index;
-    }
     // sectionContainer: "section",
     // easing: "ease",
     // animationTime: 1000,
-    // pagination: true,
+    // pagination: false,
     // updateURL: true,
     // loop: true,
     // keyboard: true,
-    // responsiveFallback: false
+    // responsiveFallback: true,
+    // beforeMove: function(index, next_el) {
+    //     activePage = index;
+    // }
+    sectionContainer: "section",
+    easing: "ease",
+    animationTime: 1000,
+    pagination: true,
+    updateURL: true,
+    loop: true,
+    keyboard: true,
+    responsiveFallback: false
 }
 
 const ops = new onePageScroll("main", opt);
@@ -338,6 +338,7 @@ window.addEventListener('resize', () => {
 })
 document.addEventListener('DOMContentLoaded', () => {
     ops.init()
+    console.log('DOMContentLoaded')
     init()
     var loader = document.querySelector('.loader');
     setTimeout(() => {
