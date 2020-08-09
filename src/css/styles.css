@@ -191,6 +191,7 @@ main {
     background-color: rgb(136 146 176 / 45%);
 }
 .section-container#intro > .section-content > .social-icons > a > svg {
+    display: block;
     width: 40px;
     height: 40px;
 }
