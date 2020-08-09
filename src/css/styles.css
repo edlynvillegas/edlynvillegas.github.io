@@ -168,8 +168,7 @@ main {
 }
 .section-container#intro > .section-content > a {
     margin-top: 20px;
-    width: 50%;
-    font-size: 20px;
+    font-size: 24px;
 }
 .section-container#intro > .section-content > .social-icons {
     display: flex;
@@ -591,15 +590,14 @@ main {
     }
     .section-container#intro > .section-content > a {
         margin-top: 15px;
-        width: 80%;
-        font-size: 15px;
+        font-size: 18px;
     }
     .section-container#intro > .section-content > h1 {
-        font-size: 4em;
+        font-size: 4.5em;
         margin-bottom: 10px;
     }
     .section-container#intro > .section-content > h4 {
-        font-size: 3em;
+        font-size: 3.5em;
     }
     /* ABOUT */
     .section-container#about .about-container {
@@ -670,7 +668,6 @@ main {
         font-size: 2.6em;
     }
     .section-container#intro > .section-content > a {
-        width: 70%;
         font-size: 12px;
     }
     .section-container#intro > .section-content > .social-icons {
