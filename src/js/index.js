@@ -3,6 +3,7 @@ import '../css/onepage.css';
 import '../assets/img/me.jpg';
 import '../assets/edlynvillegas_resume.pdf';
 import '../favicon.png';
+import '../assets/img/thumbnail.png';
 import evoJPG from '../assets/img/evo-calendar.png';
 import Typed from 'typed.js';
 import { onePageScroll } from './onescroll'
