@@ -64,9 +64,14 @@ module.exports = {
                                 type: 'src',
                             },
                             {
-                            tag: 'a',
-                            attribute: 'href',
-                            type: 'src',
+                                tag: 'a',
+                                attribute: 'href',
+                                type: 'src',
+                            },
+                            {
+                                tag: 'link',
+                                attribute: 'href',
+                                type: 'src',
                             }
                         ]
                     }
