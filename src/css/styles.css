@@ -126,7 +126,8 @@ main {
     transform: translate(-50%, -50%);
     font-size: 500px;
     line-height: 1;
-    color: rgb(0 0 0 / 20%);
+    color: #000;
+    opacity: 0.2;
     z-index: -1;
 }
 .section-content > .section-desc {
@@ -179,16 +180,18 @@ main {
     margin-right: 10px;
     cursor: pointer;
 }
-.section-container#intro > .section-content > .social-icons > a[role="button"] {
-    border: 1px solid rgb(204 214 246);
+.section-container#intro > .section-content > .social-icons > a:last-child {
+    border: 2px solid rgb(136 146 176);
     border-radius: 3px;
-    color: rgb(204 214 246);
+    color: rgb(163 174 210);
     transition: all 500ms ease;
-    background-color: rgb(136 146 176 / 15%);
+    background-color: rgba(136, 146, 176, 15%);
     padding: 5px 20px;
 }
-.section-container#intro > .section-content > .social-icons > a[role="button"]:hover {
-    background-color: rgb(136 146 176 / 45%);
+.section-container#intro > .section-content > .social-icons > a:last-child:hover {
+    border-color: rgb(204, 214, 246);
+    background-color: rgb(204, 214, 246);
+    color: #041021;
 }
 .section-container#intro > .section-content > .social-icons > a > svg {
     display: block;
@@ -309,10 +312,10 @@ main {
     width: 100%;
     height: 100%;
     transition: all .3s ease;
-    background-color: rgb(47 183 150 / 0%);
+    background-color: rgba(47, 183, 150, 0%);
 }
 .section-container#works .project-container > .project-slider > .project-content .project-image .project-image-slider > figure:hover::after {
-    background-color: rgb(47 183 150 / 42%);
+    background-color: rgba(47, 183, 150, 42%);
 }
 .section-container#works .project-container > .project-slider > .project-content .project-image .project-image-slider > figure > img {
     display: block;
@@ -396,7 +399,7 @@ main {
 .section-container#works .project-navigation > button {
     border: none;
     background-color: rgb(23 42 69);
-    box-shadow: rgb(2 12 27 / 71%) 0px 10px 30px -3px;
+    box-shadow: rgba(2, 12, 27, 71%) 0px 10px 30px -3px;
     border-radius: 3px;
     color: #fff;
     font-size: 18px;
