@@ -225,7 +225,7 @@ main {
     margin: 0;
 }
 .section-container#about .about-container > .info > table {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 .section-container#about .about-container > .info > table tr > td {
     font-size: 14px;
