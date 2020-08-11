@@ -4,6 +4,8 @@
  
  Link: [edlynvillegas.xyz](https://edlynvillegas.xyz/)
  
+ ![Portfolio Preview](/thumbnail.png)
+ 
 ### Plugins
 * [One Page Scroll](https://github.com/peachananr/purejs-onepage-scroll)
 * [Typed.js](https://github.com/mattboldt/typed.js/)
