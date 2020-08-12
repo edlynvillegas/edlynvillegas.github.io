@@ -15,7 +15,7 @@ var slider = document.querySelector('.project-slider'),
 var figure, imageSlider, images, imageCont, stacks, githubURL, demoURL;
 var typedTitle, typedDesc;
 var isMobile, isTablet, isDesktop;
-console.log('Hire me please..')
+console.log('So you\'re here... Hello! Hire me. :)')
 
 const opt = {
     sectionContainer: "section",

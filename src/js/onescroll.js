@@ -60,7 +60,6 @@ export function onePageScroll(element, options) {
       }
       sectionIndex.push(sections[i].dataset.section)
     }
-    console.trace('init')
 
     _swipeEvents(el);
     document.addEventListener("swipeDown", function (event) {
@@ -72,58 +71,17 @@ export function onePageScroll(element, options) {
       _root.moveDown(el);
     }, { passive: false });
 
-    // Create Pagination and Display Them
-
-    // if(settings.pagination == true) {
-    //   var pagination = document.createElement("ul");
-    //   pagination.setAttribute("class", "onepage-pagination");
-
-    //   body.appendChild(pagination)
-    // 	pagination.innerHTML = paginationList;
-    // 	var posTop = (document.querySelector(".onepage-pagination").offsetHeight / 2) * -1;
-    // 	document.querySelector(".onepage-pagination").style.marginTop = posTop;
-    // }
-
-    // if (window.location.hash != "" && window.location.hash != "#1") {
-    //   var init_index = window.location.hash.replace("#", ""),
-    //     next = document.querySelector(settings.sectionContainer + "[data-index='" + (init_index) + "']"),
-    //     next_index = next.dataset.index;
-
-    //   _addClass(document.querySelector(settings.sectionContainer + "[data-index='" + init_index + "']"), "active")
-    //   // console.log()
-    //   if (settings.pagination == true) _addClass(document.querySelector("nav a[data-link='" + init_index + "']"), "active");
-
-    //   if (next) {
-    //     _addClass(next, "active")
-    //     if (settings.pagination == true) _addClass(document.querySelector("nav a[data-link='" + init_index + "']"), "active");
-
-    //     if (history.replaceState && settings.updateURL == true) {
-    //       var href = window.location.href.substr(0, window.location.href.indexOf('#')) + "#" + (init_index);
-    //       history.pushState({}, document.title, href);
-    //     }
-    //   }
-    //   var pos = ((init_index - 1) * 100) * -1;
-    //   _transformPage(el, settings, pos, init_index);
-
-    // } else {
-    //   _addClass(document.querySelector(settings.sectionContainer + "[data-index='1']"), "active");
-    //   if (settings.pagination == true) _addClass(document.querySelector("nav a[data-link='1']"), "active");
-    // }
     if (hash && _getSectionIndex(hash.replace("#", "")) >= 0) {
-      // console.log('hereee', hash)
       activeIndex = sectionIndex.map(function (obj) { return obj }).indexOf(hash.replace("#", ""))
       var pos, current = _getSectionEl(sectionIndex[activeIndex])
-      // console.log(current)
           
       _addClass(current, "active")
-      console.log('hereee', hash)
       _addClass(_getPaginationEl(activeIndex), "active");
 
       _setURLHash(sectionIndex[activeIndex])
 
       _root.moveTo(el, activeIndex);
     } else {
-        console.log('thereee', hash)
         _setURLHash('intro');
         _addClass(_getSectionEl('intro'), "active");
         _addClass(_getPaginationEl(0), "active");
@@ -131,7 +89,6 @@ export function onePageScroll(element, options) {
 
     const _paginationHandler = function (e) {
       var page_index = this.dataset.link;
-      console.log(page_index)
       _root.moveTo(el, page_index);
     }
 
@@ -251,7 +208,6 @@ export function onePageScroll(element, options) {
   }
 
   const _getPaginationEl = function(index) {
-    console.log('_getPaginationEl', document.querySelector("[data-link='" + index + "']"))
       return document.querySelector("[data-link='" + index + "']")
   }
 
@@ -423,9 +379,6 @@ export function onePageScroll(element, options) {
     var current = _getSectionEl(activeIndex),
         next_index = activeIndex + 1,
         next = _getSectionEl(next_index);
-        console.log('current', current, 'next', next)
-
-
     if (!next) {
       if (settings.loop == true) {
         pos = 0;
@@ -468,7 +421,6 @@ export function onePageScroll(element, options) {
       } else { return }
     } else {
         pos = ((activeIndex-1) * 100) * -1;
-        // console.log('posup', pos, activeIndex)
     }
 
     _removeClass(current, "active");
@@ -496,7 +448,6 @@ export function onePageScroll(element, options) {
             next_index = parseInt(page_index),
             next = _getSectionEl(next_index),
             pos = (next_index * 100) * -1;
-            console.log('movetoooo', pos)
 
     if (next) {
       _removeClass(current, "active");

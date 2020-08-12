@@ -146,6 +146,31 @@ main {
     justify-content: center;
     flex-direction: column;
 }
+.section-container > span {
+    position: absolute;
+    max-width: 1366px;
+    width: 100%;
+    margin: 0 auto;
+    bottom: 0;
+    right: 0;
+    padding: 15px 10px;
+    text-align: right;
+    z-index: -1;
+}
+.section-container > span > p {
+    display: inline-block;
+    font-size: 4em;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -4px;
+    margin: 0;
+    color: rgba(0, 0, 0, 0.18);
+    transition: all 1s ease;
+    transform: translateX(100%);
+}
+.section-container.active > span > p {
+    transform: translateX(0);
+}
 .section-container#intro > .section-content > p,
 .section-container#intro > .section-content > a {
     font-family: monospace;
@@ -570,6 +595,15 @@ main {
     }
     .section-content {
         margin-bottom: 80px;
+    }   
+    .section-container > span {
+        bottom: 80px;
+        right: 0;
+        padding: 10px;
+    }
+    .section-container > span > p {
+        font-size: 2.5em;
+        letter-spacing: -1px;
     }
     .section-content > .section-title {
         font-size: 55px;
