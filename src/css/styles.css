@@ -42,7 +42,7 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgb(4 16 33);
+    background-color: rgb(4, 16, 33);
     z-index: 999;
 }
 
@@ -52,7 +52,7 @@ aside {
     left: 0;
     width: 80px;
     height: 100vh;
-    background-color: rgb(4 16 33);
+    background-color: rgb(4, 16, 33);
     z-index: 998;
 }
 aside > nav {
@@ -206,9 +206,9 @@ main {
     cursor: pointer;
 }
 .section-container#intro > .section-content > .social-icons > a:last-child {
-    border: 2px solid rgb(136 146 176);
+    border: 2px solid rgb(136, 146, 176);
     border-radius: 3px;
-    color: rgb(163 174 210);
+    color: rgb(163, 174, 210);
     transition: all 500ms ease;
     background-color: rgba(136, 146, 176, 15%);
     padding: 5px 20px;
@@ -266,7 +266,7 @@ main {
     width: 60%;
     margin: 0 auto 1em;
     padding: 10px 10px 50px;
-    background-color: rgb(147 160 179);
+    background-color: rgb(147, 160, 179);
     box-shadow: rgba(2, 12, 27, 0.7) 0px 10px 30px -15px, rgb(23, 42, 69) 10px 10px 0 0;
     transition: all 400ms ease;
     border-radius: 3px;
@@ -316,7 +316,7 @@ main {
     display: inline-block;
     width: 80%;
     overflow: hidden;
-    box-shadow: 0 0 3em -0.6em rgb(0 0 0 / 0.65);
+    box-shadow: 0 0 3em -0.6em rgb(0, 0, 0, 65%);
 }
 .section-container#works .project-container > .project-slider > .project-content .project-image .project-image-content {
     overflow: hidden;
@@ -375,7 +375,7 @@ main {
     list-style-type: none;
     margin: 0;
     min-height: 45px;
-    border-top: 1px solid rgb(93 108 130);
+    border-top: 1px solid rgb(93, 108, 130);
 }
 .section-container#works .project-container > .project-slider > .project-content .project-details > .project-detail > .project-stack > li {
     font-family: monospace;
@@ -423,7 +423,7 @@ main {
 }
 .section-container#works .project-navigation > button {
     border: none;
-    background-color: rgb(23 42 69);
+    background-color: rgb(23, 42, 69);
     box-shadow: rgba(2, 12, 27, 71%) 0px 10px 30px -3px;
     border-radius: 3px;
     color: #fff;
@@ -437,8 +437,8 @@ main {
     margin-right: 0;
 }
 .section-container#works .project-navigation > button.active {
-    background-color: rgb(204 214 246);
-    color: rgb(10 25 47);
+    background-color: rgb(204, 214, 246);
+    color: rgb(10, 25, 47);
 }
 .section-container#works .project-navigation > button:hover {
     transform: translateY(-5px);
